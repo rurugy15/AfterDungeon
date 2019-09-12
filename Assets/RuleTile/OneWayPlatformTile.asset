@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: OneWayPlatformTile
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 21300000, guid: bc2ba27c6cdbaad4bafc518dd17697a0, type: 3}
-  m_DefaultGameObject: {fileID: 0}
-  m_DefaultColliderType: 2
+  m_DefaultGameObject: {fileID: 2733597940409565223, guid: 9e57ef47672b4b844b35bb8c0f62c1a7,
+    type: 3}
+  m_DefaultColliderType: 0
   m_TilingRules:
   - m_Neighbors: 0000000000000000000000000000000000000000000000000000000000000000
     m_Sprites:
     - {fileID: 21300000, guid: bc2ba27c6cdbaad4bafc518dd17697a0, type: 3}
-    m_GameObject: {fileID: 0}
+    m_GameObject: {fileID: 2733597940409565223, guid: 9e57ef47672b4b844b35bb8c0f62c1a7,
+      type: 3}
     m_AnimationSpeed: 1
     m_PerlinScale: 0.5
     m_RuleTransform: 0
     m_Output: 0
-    m_ColliderType: 2
+    m_ColliderType: 0
     m_RandomTransform: 0

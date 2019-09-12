@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: WallTile
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 21300000, guid: b41506c40fd3a6541b9f7e2065ba7a37, type: 3}
-  m_DefaultGameObject: {fileID: 0}
-  m_DefaultColliderType: 2
+  m_DefaultGameObject: {fileID: 8404646034424953542, guid: 6c5219daf775ebf4f92546da8a4179ee,
+    type: 3}
+  m_DefaultColliderType: 0
   m_TilingRules:
   - m_Neighbors: 0000000000000000000000000000000000000000000000000000000000000000
     m_Sprites:
     - {fileID: 21300000, guid: b41506c40fd3a6541b9f7e2065ba7a37, type: 3}
-    m_GameObject: {fileID: 0}
+    m_GameObject: {fileID: 8404646034424953542, guid: 6c5219daf775ebf4f92546da8a4179ee,
+      type: 3}
     m_AnimationSpeed: 1
     m_PerlinScale: 0.5
     m_RuleTransform: 0
     m_Output: 0
-    m_ColliderType: 2
+    m_ColliderType: 0
     m_RandomTransform: 0
