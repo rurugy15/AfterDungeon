@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProjectileController : MonoBehaviour
 {
     public float speed = 100f;
-    public bool isGoRight;
+    public bool isGoRight = true;
     [SerializeField] private LayerMask lodgedLayer;
     [SerializeField] private LayerMask fallenLayer;
 
@@ -14,8 +14,16 @@ public class ProjectileController : MonoBehaviour
     private void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
-        if (isGoRight == true) rb2D.velocity = new Vector2(speed, 0);
-        else rb2D.velocity = new Vector2(-speed, 0);
+        if (isGoRight == true)
+        {
+            rb2D.velocity = new Vector2(speed, 0);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            rb2D.velocity = new Vector2(-speed, 0);
+            transform.rotation = Quaternion.Euler(0, 180f, 0);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
@@ -24,6 +32,10 @@ public class ProjectileController : MonoBehaviour
         {
             rb2D.velocity = Vector2.zero;
             rb2D.bodyType = RigidbodyType2D.Static;
+
+            float targetPosX = coll.transform.position.x;
+            if (isGoRight == true) transform.position = new Vector2(targetPosX - 0.2f, transform.position.y);
+            else transform.position = new Vector2(targetPosX + 0.2f, transform.position.y);
         }
     }
 
