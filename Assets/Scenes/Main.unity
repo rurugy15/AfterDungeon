@@ -157,7 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveController: {fileID: 63298066}
   shootController: {fileID: 63298070}
-  runSpeed: 40
+  runSpeed: 10
 --- !u!70 &63298064
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.051691055}
-  m_Size: {x: 1, y: 1.8966179}
+  m_Size: {x: 1.7052023, y: 1.8966179}
   m_Direction: 0
 --- !u!50 &63298065
 Rigidbody2D:
@@ -208,7 +208,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_JumpForce: 700
-  m_MovementSmoothing: 0.05
+  acceleration: 20
+  deceleration: 50
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 1024
@@ -270,7 +271,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 63298062}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -14.1, z: 0}
+  m_LocalPosition: {x: 0, y: -14.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1945736253}

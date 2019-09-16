@@ -4,7 +4,8 @@ using UnityEngine;
 public class CharacterMoveController : MonoBehaviour
 {
     [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
-    [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
+    [SerializeField] [Range(0, 100f)] private float acceleration = 5f;          // 프레임당 가속도
+    [SerializeField] [Range(0, 100f)] private float deceleration = 5f;          // 프레임당 감속도
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
     [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
 
@@ -36,21 +37,18 @@ public class CharacterMoveController : MonoBehaviour
     }
 
 
-    public void Move(float move, bool jump)
+    public void Move(float speed, bool jump)
     {
-        // Move the character by finding the target velocity
-        Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
-        // And then smoothing it out and applying it to the character
-        m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, m_MovementSmoothing);
+        VelocityControl(speed);
 
         // If the input is moving the player right and the player is facing left...
-        if (move > 0 && !m_FacingRight)
+        if (speed > 0 && !m_FacingRight)
         {
             // ... flip the player.
             Flip();
         }
         // Otherwise if the input is moving the player left and the player is facing right...
-        else if (move < 0 && m_FacingRight)
+        else if (speed < 0 && m_FacingRight)
         {
             // ... flip the player.
             Flip();
@@ -75,5 +73,57 @@ public class CharacterMoveController : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    private void VelocityControl(float targetV)
+    {
+        float nowV = m_Rigidbody2D.velocity.x;
+        float changedV = 0;
+
+        if (nowV == targetV) return;
+
+        if (targetV > 0)
+        {
+            if (nowV >= 0)
+            {
+                changedV = nowV + acceleration * Time.fixedDeltaTime;
+                if (changedV >= targetV) changedV = targetV;
+            }
+            else
+            {
+                changedV = nowV + deceleration * Time.fixedDeltaTime;
+            }
+        }
+        else if (targetV < 0)
+        {
+            if (nowV <= 0)
+            {
+                changedV = nowV - acceleration * Time.fixedDeltaTime;
+                if (changedV <= targetV) changedV = targetV;
+            }
+            else
+            {
+                changedV = nowV - deceleration * Time.fixedDeltaTime;
+            }
+        }
+        else
+        {
+            if (nowV > 0)
+            {
+                changedV = nowV - deceleration * Time.fixedDeltaTime;
+                if (changedV <= 0) changedV = 0;
+            }
+            else if (nowV < 0)
+            {
+                changedV = nowV + acceleration * Time.fixedDeltaTime;
+                if (changedV >= 0) changedV = 0;
+            }
+            else
+            {
+                changedV = 0;
+            }
+        }
+
+        m_Rigidbody2D.velocity = new Vector2(changedV, m_Rigidbody2D.velocity.y);
     }
 }
