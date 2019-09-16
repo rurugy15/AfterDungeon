@@ -130,12 +130,12 @@ GameObject:
   m_Component:
   - component: {fileID: 63298068}
   - component: {fileID: 63298067}
-  - component: {fileID: 63298066}
-  - component: {fileID: 63298070}
   - component: {fileID: 63298065}
   - component: {fileID: 63298064}
-  - component: {fileID: 63298063}
   - component: {fileID: 63298069}
+  - component: {fileID: 63298063}
+  - component: {fileID: 63298066}
+  - component: {fileID: 63298070}
   m_Layer: 8
   m_Name: Character
   m_TagString: Player
@@ -251,7 +251,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fb4be589f410f42438789ae95185a0b2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 80d9aad2088d27f4089cd4b2971486f8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -312,6 +312,7 @@ MonoBehaviour:
   projectile: {fileID: 4677124846470903992, guid: 25a8dac3af0355d45ad9bc29e4b85973,
     type: 3}
   speed: 50
+  delay: 0.5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     private float horizontalMove = 0f;
     private bool jump = false;
-    private bool isFacingRight = false;
+    private bool isFacingRight = true;
 
     private void Update()
     {
