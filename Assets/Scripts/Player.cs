@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public CharacterMoveController moveController;
     public CharacterShootController shootController;
+    public Animator animator;
 
     public float runSpeed = 40f;
 
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump")) jump = true;
         if (Input.GetButtonDown("Fire1")) shootController.Shoot(transform.position, isFacingRight);
+
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
     }
 
     private void FixedUpdate()
