@@ -156,6 +156,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 100
   isGoRight: 0
+  attackLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   lodgedLayer:
     serializedVersion: 2
     m_Bits: 512

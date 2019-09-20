@@ -6,6 +6,7 @@ public class ProjectileController : MonoBehaviour
 {
     public float speed = 100f;
     public bool isGoRight = true;
+    [SerializeField] private LayerMask attackLayer;
     [SerializeField] private LayerMask lodgedLayer;
     [SerializeField] private LayerMask fallenLayer;
 
@@ -47,6 +48,12 @@ public class ProjectileController : MonoBehaviour
             rb2D.bodyType = RigidbodyType2D.Dynamic;
             rb2D.gravityScale = 3f;
             GetComponent<Collider2D>().enabled = false;
+        }
+
+        if (attackLayer == (attackLayer | (1 << coll.gameObject.layer)))
+        {
+            Destroy(coll.gameObject);
+            Destroy(gameObject);
         }
     }
 }
