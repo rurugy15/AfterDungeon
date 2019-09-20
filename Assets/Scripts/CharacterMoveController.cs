@@ -8,6 +8,9 @@ public class CharacterMoveController : MonoBehaviour
     [SerializeField] [Range(0, 100f)] private float deceleration = 5f;          // 프레임당 감속도
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
     [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
+    [SerializeField] private float maxHeight;                                   // 점프 최대 높이
+    [SerializeField] private float ascentTime;                                  // 점프 상승 시간
+    [SerializeField] private float flightTime;                                  // 점프 체공 시간
 
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
@@ -20,8 +23,7 @@ public class CharacterMoveController : MonoBehaviour
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
     }
-
-
+    
     private void FixedUpdate()
     {
         m_Grounded = false;
@@ -34,8 +36,13 @@ public class CharacterMoveController : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
                 m_Grounded = true;
         }
-    }
 
+        // 떨어질 때
+        if (m_Rigidbody2D.velocity.y <= 0)
+        {
+            m_Rigidbody2D.gravityScale = 2 * maxHeight / (9.8f * Mathf.Pow((flightTime - ascentTime), 2));
+        }
+    }
 
     public void Move(float speed, bool jump)
     {
@@ -59,11 +66,14 @@ public class CharacterMoveController : MonoBehaviour
         {
             // Add a vertical force to the player.
             m_Grounded = false;
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+
+            // 위로 올라갈때
+            float initailV = 2 * maxHeight / ascentTime;
+            m_Rigidbody2D.velocity += new Vector2(0, initailV);
+            m_Rigidbody2D.gravityScale = 2 * maxHeight / (9.8f * (ascentTime * ascentTime));
         }
     }
-
-
+    
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
