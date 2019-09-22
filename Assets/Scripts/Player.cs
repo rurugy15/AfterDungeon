@@ -31,4 +31,17 @@ public class Player : MonoBehaviour
         moveController.Move(horizontalMove, jump);
         jump = false;
     }
+
+    private void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Monster")
+        {
+            Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
+            rb2D.velocity = new Vector2(0, 10f);
+            rb2D.gravityScale = 3f;
+
+            GetComponent<Collider2D>().enabled = false;
+            this.enabled = false;
+        }
+    }
 }
