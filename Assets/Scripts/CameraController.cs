@@ -18,6 +18,14 @@ public class CameraController : MonoBehaviour
         transform.position = new Vector3(0, player.transform.position.y + defaultPos, -10f);
     }
 
+    private void Update()
+    {
+        if (player.GetComponent<Player>().enabled == false)
+        {
+            this.enabled = false;
+        }
+    }
+
     private void FixedUpdate()
     {
         targetY = player.transform.position.y + defaultPos;
