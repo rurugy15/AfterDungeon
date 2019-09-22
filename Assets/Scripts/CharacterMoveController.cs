@@ -67,6 +67,7 @@ public class CharacterMoveController : MonoBehaviour
             // Add a vertical force to the player.
             m_Grounded = false;
 
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0);
             // 위로 올라갈때
             float initailV = 2 * maxHeight / ascentTime;
             m_Rigidbody2D.velocity += new Vector2(0, initailV);
