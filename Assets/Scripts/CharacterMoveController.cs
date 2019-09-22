@@ -1,5 +1,5 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class CharacterMoveController : MonoBehaviour
 {
@@ -7,7 +7,7 @@ public class CharacterMoveController : MonoBehaviour
     [SerializeField] [Range(0, 100f)] private float acceleration = 5f;          // 프레임당 가속도
     [SerializeField] [Range(0, 100f)] private float deceleration = 5f;          // 프레임당 감속도
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
-    [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
+    [SerializeField] private List<Transform> m_GroundChecker;                   // A position marking where to check if the player is grounded.
     [SerializeField] private float maxHeight;                                   // 점프 최대 높이
     [SerializeField] private float ascentTime;                                  // 점프 상승 시간
     [SerializeField] private float flightTime;                                  // 점프 체공 시간
@@ -30,11 +30,23 @@ public class CharacterMoveController : MonoBehaviour
 
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
         // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
+        List<Collider2D> colliders = new List<Collider2D>();
+        foreach (Transform groundcheck in m_GroundChecker)
+        {
+            Collider2D[] colls = Physics2D.OverlapCircleAll(groundcheck.position, k_GroundedRadius, m_WhatIsGround);
+            foreach (Collider2D coll in colls)
+            {
+                colliders.Add(coll);
+            }
+        }
+
+        for (int i = 0; i < colliders.Count; i++)
         {
             if (colliders[i].gameObject != gameObject)
+            {
                 m_Grounded = true;
+                break;
+            }
         }
 
         // 떨어질 때
