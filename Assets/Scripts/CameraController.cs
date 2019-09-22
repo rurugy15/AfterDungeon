@@ -7,10 +7,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float defaultPos;
     [SerializeField] private float upperLimit;
     [SerializeField] private float lowerLimit;
-    [SerializeField] private float speed;
 
     private GameObject player;
-    private float targetPos;
+    private float targetY;
+    private Vector3 velocity = Vector3.zero;
 
     private void Start()
     {
@@ -18,18 +18,18 @@ public class CameraController : MonoBehaviour
         transform.position = new Vector3(0, player.transform.position.y + defaultPos, -10f);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        targetPos = player.transform.position.y + defaultPos;
+        targetY = player.transform.position.y + defaultPos;
 
-        if (targetPos == transform.position.y) return;
+        if (targetY == transform.position.y) return;
 
-        if (targetPos - transform.position.y >= upperLimit)
+        if (targetY - transform.position.y >= upperLimit)
         {
             FastAdjustment_Up();
             return;
         }
-        else if (transform.position.y - targetPos >= lowerLimit)
+        else if (transform.position.y - targetY >= lowerLimit)
         {
             FastAdjustment_Down();
             return;
@@ -40,18 +40,21 @@ public class CameraController : MonoBehaviour
 
     private void FastAdjustment_Up()
     {
-        transform.position = new Vector3(0, targetPos - upperLimit, -10f);
+        Vector3 targetPos = new Vector3(0, targetY - upperLimit, -10f);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.01f);
     }
 
     private void FastAdjustment_Down()
     {
-        Debug.Log("아래쪽으로 맞추기");
-        transform.position = new Vector3(0, targetPos + lowerLimit, -10f);
+        Vector3 targetPos = new Vector3(0, targetY + lowerLimit, -10f);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.1f);
     }
 
     private void SlowAdjustment()
     {
-        if (Mathf.Abs(transform.position.y - targetPos) < Mathf.Epsilon) return;
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(0, targetPos, -10f), speed * Time.deltaTime);
+        //if (Mathf.Abs(transform.position.y - targetY) < Mathf.Epsilon) return;
+
+        Vector3 targetPos = new Vector3(0, targetY, -10f);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.3f);
     }
 }

@@ -98,5 +98,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultPos: 5
   upperLimit: 4
-  lowerLimit: 1
+  lowerLimit: 2
   speed: 3

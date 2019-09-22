@@ -52,7 +52,11 @@ public class CharacterMoveController : MonoBehaviour
         // 떨어질 때
         if (m_Rigidbody2D.velocity.y <= 0)
         {
-            m_Rigidbody2D.gravityScale = 2 * maxHeight / (9.8f * Mathf.Pow((flightTime - ascentTime), 2));
+            float fallGravity = 2 * maxHeight / (9.8f * Mathf.Pow((flightTime - ascentTime), 2));
+            m_Rigidbody2D.gravityScale = fallGravity;
+
+            float maxFallVelocity = Mathf.Sqrt(2 * fallGravity * 9.8f * maxHeight);
+            if (m_Rigidbody2D.velocity.y <= -maxFallVelocity) m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -maxFallVelocity);
         }
     }
 
