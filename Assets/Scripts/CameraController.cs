@@ -11,11 +11,13 @@ public class CameraController : MonoBehaviour
     private GameObject player;
     private float targetY;
     private Vector3 velocity = Vector3.zero;
+    private float mySize;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         transform.position = new Vector3(0, player.transform.position.y + defaultPos, -10f);
+        mySize = GetComponent<Camera>().orthographicSize;
     }
 
     private void Update()

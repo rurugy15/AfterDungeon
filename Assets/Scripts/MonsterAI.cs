@@ -6,22 +6,41 @@ public enum AttackType { Always, Detected };
 
 public class MonsterAI : MonoBehaviour
 {
+    [SerializeField] private PatrolAreaController patroller;
+    [SerializeField] private MonsterSight sight;
+    [SerializeField] private CharacterShootController shooter;
     [SerializeField] private AttackType attackType;
 
-    private CharacterShootController shooter;
-    private PatrolAreaController patroller;
+    private bool canShoot = false;
+    public bool isFacingRight = true;
+    public bool isFindHero = false;
 
     private void Start()
     {
-        patroller = GetComponent<PatrolAreaController>();
-
-        if (GetComponent<CharacterShootController>())
-            shooter = GetComponent<CharacterShootController>();
-        else enabled = false;
+        if(shooter) canShoot = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        shooter.Shoot(transform.position, patroller.isFacingRight);
+        if (canShoot)
+        {
+            switch (attackType)
+            {
+                case AttackType.Always:
+                    shooter.Shoot(transform.position, isFacingRight);
+                    break;
+                case AttackType.Detected:
+                    if(isFindHero == true)
+                        shooter.Shoot(transform.position, isFacingRight);
+                    break;
+            }
+        }
+    }
+
+    public void FlipCharacter()
+    {
+        isFacingRight = !isFacingRight;
+        GetComponent<SpriteRenderer>().flipX = !GetComponent<SpriteRenderer>().flipX;
+        sight.FlipFacingDir();
     }
 }

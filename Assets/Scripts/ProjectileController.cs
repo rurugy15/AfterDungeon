@@ -27,6 +27,12 @@ public class ProjectileController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (Mathf.Abs(transform.position.x) > 50f)
+            Destroy(gameObject);
+    }
+
     private void OnCollisionEnter2D(Collision2D coll)
     {
         if (lodgedLayer == (lodgedLayer | (1 << coll.gameObject.layer)))

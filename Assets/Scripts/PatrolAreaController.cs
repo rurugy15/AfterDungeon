@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class PatrolAreaController : MonoBehaviour
 {
-    public List<Vector2> patrolPoints;
+    [SerializeField] private List<Vector2> patrolPoints;
     public float speed;
-    public bool isFacingRight;
 
+    private MonsterAI AI;
     private int targetPoint;
 
     private void Start()
     {
+        AI = GetComponent<MonsterAI>();
         transform.position = patrolPoints[0];
         targetPoint = 1;
-        isFacingRight = true;
     }
 
     private void FixedUpdate()
     {
         MoveToNextPoint();
-        FlipCharacter();
     }
 
     private void MoveToNextPoint()
     {
-        if (transform.position.x < patrolPoints[targetPoint].x) isFacingRight = true;
-        if (transform.position.x > patrolPoints[targetPoint].x) isFacingRight = false;
+        if (transform.position.x < patrolPoints[targetPoint].x && AI.isFacingRight == false
+            || transform.position.x > patrolPoints[targetPoint].x && AI.isFacingRight == true)
+            AI.FlipCharacter();
 
         transform.position = Vector2.MoveTowards(transform.position, patrolPoints[targetPoint], speed * Time.fixedDeltaTime);
 
@@ -37,10 +37,5 @@ public class PatrolAreaController : MonoBehaviour
         }
     }
 
-    private void FlipCharacter()
-    {
-        if (isFacingRight == true)
-            GetComponent<SpriteRenderer>().flipX = false;
-        else GetComponent<SpriteRenderer>().flipX = true;
-    }
+    
 }
