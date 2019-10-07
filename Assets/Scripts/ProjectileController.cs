@@ -58,6 +58,11 @@ public class ProjectileController : MonoBehaviour
 
         if (attackLayer == (attackLayer | (1 << coll.gameObject.layer)))
         {
+            if (coll.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                coll.gameObject.GetComponent<Player>().Die();
+                return;
+            }
             Destroy(coll.gameObject);
             Destroy(gameObject);
         }

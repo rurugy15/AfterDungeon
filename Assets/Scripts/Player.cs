@@ -36,12 +36,17 @@ public class Player : MonoBehaviour
     {
         if (coll.gameObject.tag == "Monster")
         {
-            Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
-            rb2D.velocity = new Vector2(0, 10f);
-            rb2D.gravityScale = 3f;
-
-            GetComponent<Collider2D>().enabled = false;
-            this.enabled = false;
+            Die();
         }
+    }
+
+    public void Die()
+    {
+        Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
+        rb2D.velocity = new Vector2(0, 10f);
+        rb2D.gravityScale = 3f;
+
+        GetComponent<Collider2D>().enabled = false;
+        this.enabled = false;
     }
 }
