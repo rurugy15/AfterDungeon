@@ -8,6 +8,7 @@ TagManager:
   - Platform
   - OneWayPlatform
   - Monster
+  - Portal
   layers:
   - Default
   - TransparentFX

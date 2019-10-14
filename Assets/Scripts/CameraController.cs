@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [Tooltip("정지했을 때 카메라의 (플레이어에 대한 상대적) 위치")]
     [SerializeField] private float defaultPos;
+    [Tooltip("느린 조정의 상한선")]
     [SerializeField] private float upperLimit;
+    [Tooltip("느린 조정의 하한선")]
     [SerializeField] private float lowerLimit;
+    [Tooltip("카메라 움직임의 최대 속도")]
+    [SerializeField] [Range(100f, 600f)] private float speedLimit = 300f;
+    [SerializeField] private List<Transform> portalPos = new List<Transform>();
 
     private GameObject player;
     private float targetY;
@@ -18,6 +24,12 @@ public class CameraController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         transform.position = new Vector3(0, player.transform.position.y + defaultPos, -10f);
         mySize = GetComponent<Camera>().orthographicSize;
+
+        GameObject[] portals = GameObject.FindGameObjectsWithTag("Portal");
+        foreach (GameObject portal in portals)
+        {
+            portalPos.Add(portal.transform);
+        }
     }
 
     private void Update()
@@ -31,6 +43,10 @@ public class CameraController : MonoBehaviour
     private void FixedUpdate()
     {
         targetY = player.transform.position.y + defaultPos;
+
+        int? boundaryPortalNum = UpperBoundaryPortalNum();
+        if (boundaryPortalNum.HasValue && targetY >= portalPos[boundaryPortalNum.Value].position.y - mySize / 2)
+            targetY = portalPos[boundaryPortalNum.Value].position.y - mySize / 2;
 
         if (targetY == transform.position.y) return;
 
@@ -51,20 +67,29 @@ public class CameraController : MonoBehaviour
     private void FastAdjustment_Up()
     {
         Vector3 targetPos = new Vector3(0, targetY - upperLimit, -10f);
-        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.01f);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.01f, speedLimit);
     }
 
     private void FastAdjustment_Down()
     {
         Vector3 targetPos = new Vector3(0, targetY + lowerLimit, -10f);
-        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.1f);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.1f, speedLimit);
     }
 
     private void SlowAdjustment()
     {
-        //if (Mathf.Abs(transform.position.y - targetY) < Mathf.Epsilon) return;
-
         Vector3 targetPos = new Vector3(0, targetY, -10f);
-        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.3f);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.3f, speedLimit);
+    }
+
+    private int? UpperBoundaryPortalNum()
+    {
+        for (int i = 0; i < portalPos.Count; i++)
+        {
+            if (player.transform.position.y < portalPos[i].transform.position.y)
+                return i;
+        }
+
+        return null;
     }
 }
