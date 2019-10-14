@@ -21,7 +21,11 @@ public class Player : MonoBehaviour
         else if (horizontalMove < 0) isFacingRight = false;
 
         if (Input.GetButtonDown("Jump")) jump = true;
-        if (Input.GetButtonDown("Fire1")) shootController.Shoot(transform.position, isFacingRight);
+        if (Input.GetButtonDown("Fire1"))
+        {
+            animator.SetTrigger("Shoot");
+            shootController.Shoot(transform.position, isFacingRight);
+        }
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
     }
