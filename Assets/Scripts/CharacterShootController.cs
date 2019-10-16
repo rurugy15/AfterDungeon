@@ -17,9 +17,7 @@ public class CharacterShootController : MonoBehaviour
         canShoot = false;
         StartCoroutine(ShootDelay());
 
-        float delta;
-        if (isFacingRight) delta = 0.5f;
-        else delta = -0.5f;
+        float delta = (isFacingRight ? 0.5f : -0.5f);
 
         GameObject project = Instantiate(projectile, shooterPos + new Vector2(delta,0), Quaternion.identity);
         project.GetComponent<ProjectileController>().speed = speed;
