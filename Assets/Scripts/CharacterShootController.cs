@@ -20,6 +20,8 @@ public class CharacterShootController : MonoBehaviour
         GameObject project = Instantiate(projectile, shooterPos, Quaternion.identity);
         project.GetComponent<ProjectileController>().speed = speed;
         project.GetComponent<ProjectileController>().isGoRight = isFacingRight;
+        
+        }
     }
 
     private IEnumerator ShootDelay()

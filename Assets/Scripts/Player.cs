@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             animator.SetTrigger("Shoot");
-            shootController.Shoot(transform.position, isFacingRight);
+            shootController.Shoot(transform.position + new Vector3(2,0,0), isFacingRight);
         }
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
