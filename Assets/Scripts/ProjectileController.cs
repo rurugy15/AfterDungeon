@@ -41,8 +41,8 @@ public class ProjectileController : MonoBehaviour
             rb2D.bodyType = RigidbodyType2D.Static;
 
             float targetPosX = coll.transform.position.x;
-            if (isGoRight == true) transform.position = new Vector2(targetPosX - 0.4f, transform.position.y);
-            else transform.position = new Vector2(targetPosX + 0.4f, transform.position.y);
+            if (isGoRight == true) transform.position = new Vector2(targetPosX - 0.8f, transform.position.y);
+            else transform.position = new Vector2(targetPosX + 0.8f, transform.position.y);
         }
     }
 
