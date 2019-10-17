@@ -218,12 +218,12 @@ MonoBehaviour:
   deceleration: 70
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 1024
   m_GroundChecker:
   - {fileID: 224290068193353712}
   - {fileID: 7579454179531419066}
   - {fileID: 1627591371978919674}
-  maxHeight: 6.5
+  maxHeight: 6.8
   ascentTime: 0.45
   flightTime: 0.8
 --- !u!114 &224290067508189615
