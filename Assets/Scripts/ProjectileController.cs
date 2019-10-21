@@ -57,6 +57,7 @@ public class ProjectileController : MonoBehaviour
         {
             if (lodgedLayer == (lodgedLayer | (1 << coll.gameObject.layer)))
             {
+                Debug.Log("박힙니다!");
                 rb2D.velocity = Vector2.zero;
                 rb2D.bodyType = RigidbodyType2D.Static;
 
@@ -65,10 +66,14 @@ public class ProjectileController : MonoBehaviour
                 else transform.position = new Vector2(targetPosX, transform.position.y);
 
                 GetComponent<Collider2D>().isTrigger = false;
+                gameObject.layer = LayerMask.NameToLayer("Platform");
+                enabled = false;
+                return;
             }
 
             if (attackLayer == (attackLayer | (1 << coll.gameObject.layer)))
             {
+                Debug.Log("공격했습니다!");
                 if (coll.gameObject.layer == LayerMask.NameToLayer("Player"))
                 {
                     coll.gameObject.GetComponent<Player>().Die();
@@ -76,14 +81,18 @@ public class ProjectileController : MonoBehaviour
                 }
                 Destroy(coll.gameObject);
                 Destroy(gameObject);
+                return;
             }
 
             if (fallenLayer == (fallenLayer | (1 << coll.gameObject.layer)))
             {
+                Debug.Log("떨어집니다..");
                 rb2D.velocity = Vector2.zero;
                 rb2D.bodyType = RigidbodyType2D.Dynamic;
                 rb2D.gravityScale = 3f;
                 GetComponent<Collider2D>().enabled = false;
+                enabled = false;
+                return;
             }
         }
     }

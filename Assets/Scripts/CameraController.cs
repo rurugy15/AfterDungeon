@@ -30,6 +30,13 @@ public class CameraController : MonoBehaviour
         {
             portalPos.Add(portal.transform);
         }
+
+        portalPos.Sort(delegate (Transform a, Transform b)
+        {
+            if (a.position.y > b.position.y) return 1;
+            else if (a.position.y < b.position.y) return -1;
+            else return 0;
+        });
     }
 
     private void Update()
