@@ -7,6 +7,7 @@ public class CharacterShootController : MonoBehaviour
     [SerializeField] private GameObject projectile;
     [SerializeField] private float speed = 100f;
     [SerializeField] private float delay = 0.5f;
+    [SerializeField] private Vector2 shootPos;
 
     private bool canShoot = true;
 
@@ -17,11 +18,18 @@ public class CharacterShootController : MonoBehaviour
         canShoot = false;
         StartCoroutine(ShootDelay());
 
-        float delta = (isFacingRight ? 0.5f : -0.5f);
+        Vector2 nowShootPos = isFacingRight ? shootPos : shootPos * new Vector2(-1, 1);
 
-        GameObject project = Instantiate(projectile, shooterPos + new Vector2(delta,0), Quaternion.identity);
+        GameObject project = Instantiate(projectile, shooterPos + nowShootPos, Quaternion.identity);
         project.GetComponent<ProjectileController>().speed = speed;
         project.GetComponent<ProjectileController>().isGoRight = isFacingRight;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawSphere((Vector2)transform.position + shootPos, 0.05f);
     }
 
     private IEnumerator ShootDelay()

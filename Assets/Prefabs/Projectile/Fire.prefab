@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7942000697745327288}
   - component: {fileID: 3824778598410309142}
   - component: {fileID: 3762795434647944375}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,3 +143,5 @@ MonoBehaviour:
   fallenLayer:
     serializedVersion: 2
     m_Bits: 512
+  colliderPos: {x: 0, y: 0}
+  colliderRadius: 0

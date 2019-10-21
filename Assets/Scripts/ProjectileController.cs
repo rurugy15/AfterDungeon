@@ -10,6 +10,10 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] private LayerMask lodgedLayer;
     [SerializeField] private LayerMask fallenLayer;
 
+    [Header("Colliding Check")]
+    [SerializeField] private Vector2 colliderPos;
+    [SerializeField] private float colliderRadius;
+
     private Rigidbody2D rb2D;
 
     private void Start()
@@ -31,40 +35,56 @@ public class ProjectileController : MonoBehaviour
     {
         if (Mathf.Abs(transform.position.x) > 50f)
             Destroy(gameObject);
+
+        CheckColliding();
     }
 
-    private void OnCollisionEnter2D(Collision2D coll)
+    private void OnDrawGizmos()
     {
-        if (lodgedLayer == (lodgedLayer | (1 << coll.gameObject.layer)))
-        {
-            rb2D.velocity = Vector2.zero;
-            rb2D.bodyType = RigidbodyType2D.Static;
+        Gizmos.color = Color.green;
 
-            float targetPosX = coll.transform.position.x;
-            if (isGoRight == true) transform.position = new Vector2(targetPosX - 0.8f, transform.position.y);
-            else transform.position = new Vector2(targetPosX + 0.8f, transform.position.y);
-        }
+        Vector2 drawPos = isGoRight ? colliderPos : colliderPos * new Vector2(-1, 1);
+        Gizmos.DrawWireSphere((Vector2)transform.position + drawPos, colliderRadius);
     }
 
-    private void OnTriggerEnter2D(Collider2D coll)
+    private void CheckColliding()
     {
-        if (fallenLayer == (fallenLayer | (1 << coll.gameObject.layer)))
-        {
-            rb2D.velocity = Vector2.zero;
-            rb2D.bodyType = RigidbodyType2D.Dynamic;
-            rb2D.gravityScale = 3f;
-            GetComponent<Collider2D>().enabled = false;
-        }
+        Vector2 checkPos = isGoRight ? colliderPos : colliderPos * new Vector2(-1, 1);
 
-        if (attackLayer == (attackLayer | (1 << coll.gameObject.layer)))
+        Collider2D[] colls = Physics2D.OverlapCircleAll((Vector2)transform.position + checkPos, colliderRadius);
+
+        foreach (Collider2D coll in colls)
         {
-            if (coll.gameObject.layer == LayerMask.NameToLayer("Player"))
+            if (lodgedLayer == (lodgedLayer | (1 << coll.gameObject.layer)))
             {
-                coll.gameObject.GetComponent<Player>().Die();
-                return;
+                rb2D.velocity = Vector2.zero;
+                rb2D.bodyType = RigidbodyType2D.Static;
+
+                float targetPosX = coll.transform.position.x;
+                if (isGoRight == true) transform.position = new Vector2(targetPosX, transform.position.y);
+                else transform.position = new Vector2(targetPosX, transform.position.y);
+
+                GetComponent<Collider2D>().isTrigger = false;
             }
-            Destroy(coll.gameObject);
-            Destroy(gameObject);
+
+            if (attackLayer == (attackLayer | (1 << coll.gameObject.layer)))
+            {
+                if (coll.gameObject.layer == LayerMask.NameToLayer("Player"))
+                {
+                    coll.gameObject.GetComponent<Player>().Die();
+                    return;
+                }
+                Destroy(coll.gameObject);
+                Destroy(gameObject);
+            }
+
+            if (fallenLayer == (fallenLayer | (1 << coll.gameObject.layer)))
+            {
+                rb2D.velocity = Vector2.zero;
+                rb2D.bodyType = RigidbodyType2D.Dynamic;
+                rb2D.gravityScale = 3f;
+                GetComponent<Collider2D>().enabled = false;
+            }
         }
     }
 }

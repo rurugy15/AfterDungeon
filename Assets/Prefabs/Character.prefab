@@ -242,6 +242,7 @@ MonoBehaviour:
     type: 3}
   speed: 50
   delay: 0.5
+  shootPos: {x: 0.9, y: -0.5}
 --- !u!1 &224290068193353719
 GameObject:
   m_ObjectHideFlags: 0
