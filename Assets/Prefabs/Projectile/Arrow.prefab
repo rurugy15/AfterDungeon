@@ -164,6 +164,6 @@ MonoBehaviour:
     m_Bits: 512
   fallenLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 9216
   colliderPos: {x: 0, y: 0}
   colliderRadius: 0.1

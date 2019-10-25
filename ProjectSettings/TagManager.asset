@@ -7,8 +7,7 @@ TagManager:
   - Wall
   - Monster
   - Portal
-  - Lodged
-  - Unlodged
+  - OneWayPlatform
   layers:
   - Default
   - TransparentFX
@@ -19,11 +18,11 @@ TagManager:
   - 
   - 
   - Player
-  - Wall
+  - LodegedWall
   - Platform
   - Monster
   - Projectile
-  - 
+  - UnlodgedWall
   - 
   - 
   - 
