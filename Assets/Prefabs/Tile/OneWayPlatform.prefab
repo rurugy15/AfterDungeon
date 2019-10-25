@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7460991157766489577}
   m_Layer: 10
   m_Name: OneWayPlatform
-  m_TagString: OneWayPlatform
+  m_TagString: Unlodged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

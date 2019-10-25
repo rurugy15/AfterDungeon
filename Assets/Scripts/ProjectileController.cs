@@ -57,7 +57,6 @@ public class ProjectileController : MonoBehaviour
         {
             if (lodgedLayer == (lodgedLayer | (1 << coll.gameObject.layer)))
             {
-                Debug.Log("박힙니다!");
                 rb2D.velocity = Vector2.zero;
                 rb2D.bodyType = RigidbodyType2D.Static;
 
@@ -73,7 +72,6 @@ public class ProjectileController : MonoBehaviour
 
             if (attackLayer == (attackLayer | (1 << coll.gameObject.layer)))
             {
-                Debug.Log("공격했습니다!");
                 if (coll.gameObject.layer == LayerMask.NameToLayer("Player"))
                 {
                     coll.gameObject.GetComponent<Player>().Die();

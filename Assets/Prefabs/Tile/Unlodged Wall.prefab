@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2840417183640417024}
   - component: {fileID: 1039070776472450947}
   m_Layer: 9
-  m_Name: Wall
-  m_TagString: Lodged
+  m_Name: Unlodged Wall
+  m_TagString: Unlodged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
