@@ -22,7 +22,10 @@ public class Player : MonoBehaviour
         if (horizontalMove > 0) isFacingRight = true;
         else if (horizontalMove < 0) isFacingRight = false;
 
-        if (Input.GetButtonDown("Jump")) jump = true;
+        if (Input.GetButtonDown("Jump"))
+        {
+            jump = true;
+        }
         if (Input.GetButtonDown("Fire1"))
         {
             animator.SetTrigger("Shoot");

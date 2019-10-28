@@ -17,6 +17,7 @@ public class CharacterMoveController : MonoBehaviour
     private Rigidbody2D m_Rigidbody2D;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 velocity = Vector3.zero;
+    private float lastGroundedTime = 0;
 
     private void Awake()
     {
@@ -25,7 +26,7 @@ public class CharacterMoveController : MonoBehaviour
     
     private void FixedUpdate()
     {
-        m_Grounded = false;
+        //m_Grounded = false;
 
         GroundChecking();
 
@@ -48,7 +49,7 @@ public class CharacterMoveController : MonoBehaviour
         List<Collider2D> colliders = new List<Collider2D>();
         foreach (Transform groundcheck in m_GroundChecker)
         {
-            Collider2D[] colls = Physics2D.OverlapCircleAll(groundcheck.position, k_GroundedRadius, m_WhatIsGround);
+            Collider2D[] colls = Physics2D.OverlapBoxAll(groundcheck.position, new Vector2(0.75f, k_GroundedRadius), 0, m_WhatIsGround);
             foreach (Collider2D coll in colls)
             {
                 colliders.Add(coll);
@@ -59,7 +60,8 @@ public class CharacterMoveController : MonoBehaviour
         {
             if (colliders[i].gameObject != gameObject)
             {
-                m_Grounded = true;
+                //m_Grounded = true;
+                lastGroundedTime = Time.time;
                 break;
             }
         }
@@ -83,10 +85,10 @@ public class CharacterMoveController : MonoBehaviour
         }
 
         // If the player should jump...
-        if (m_Grounded && jump)
+        if ((/*m_Grounded ||*/ (Time.time - lastGroundedTime <= 0.1f)) && jump)
         {
             // Add a vertical force to the player.
-            m_Grounded = false;
+            //m_Grounded = false;
 
             m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0);
             // 위로 올라갈때
