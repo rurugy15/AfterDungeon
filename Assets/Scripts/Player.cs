@@ -8,7 +8,9 @@ public class Player : MonoBehaviour
     public CharacterShootController shootController;
     public Animator animator;
 
-    public float runSpeed = 40f;
+    [SerializeField] private float runSpeed = 40f;
+    [Tooltip("jump 입력이 지속되는 frame 수")]
+    [SerializeField] private int mildJumpFrame = 3;
 
     private float horizontalMove = 0f;
     private bool jump = false;
@@ -33,7 +35,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         moveController.Move(horizontalMove, jump);
-        jump = false;
+        StartCoroutine(MildJump(mildJumpFrame));
     }
 
     private void OnTriggerEnter2D(Collider2D coll)
@@ -52,5 +54,17 @@ public class Player : MonoBehaviour
 
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
+    }
+
+    private IEnumerator MildJump(int frameCnt)
+    {
+        if (jump == false) yield break;
+
+        for (int i = 0; i < frameCnt; i++)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+
+        jump = false;
     }
 }

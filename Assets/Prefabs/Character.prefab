@@ -169,6 +169,7 @@ MonoBehaviour:
   shootController: {fileID: 224290067508189615}
   animator: {fileID: 224290067508189610}
   runSpeed: 10
+  mildJumpFrame: 3
 --- !u!114 &224290067508189608
 MonoBehaviour:
   m_ObjectHideFlags: 0

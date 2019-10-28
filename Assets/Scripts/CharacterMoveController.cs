@@ -28,8 +28,24 @@ public class CharacterMoveController : MonoBehaviour
     {
         m_Grounded = false;
 
-        // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        // This can be done using layers instead but Sample Assets will not overwrite your project settings.
+        GroundChecking();
+
+        // 떨어질 때
+        if (m_Rigidbody2D.velocity.y <= 0)
+        {
+            float fallGravity = 2 * maxHeight / (9.8f * Mathf.Pow((flightTime - ascentTime), 2));
+            m_Rigidbody2D.gravityScale = fallGravity;
+
+            float maxFallVelocity = Mathf.Sqrt(2 * fallGravity * 9.8f * maxHeight);
+            if (m_Rigidbody2D.velocity.y <= -maxFallVelocity) m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -maxFallVelocity);
+        }
+    }
+
+    private void GroundChecking()
+    {
+        // 상승 중에는 점프 불가
+        if (m_Rigidbody2D.velocity.y >= 0.01f) return;
+
         List<Collider2D> colliders = new List<Collider2D>();
         foreach (Transform groundcheck in m_GroundChecker)
         {
@@ -47,16 +63,6 @@ public class CharacterMoveController : MonoBehaviour
                 m_Grounded = true;
                 break;
             }
-        }
-
-        // 떨어질 때
-        if (m_Rigidbody2D.velocity.y <= 0)
-        {
-            float fallGravity = 2 * maxHeight / (9.8f * Mathf.Pow((flightTime - ascentTime), 2));
-            m_Rigidbody2D.gravityScale = fallGravity;
-
-            float maxFallVelocity = Mathf.Sqrt(2 * fallGravity * 9.8f * maxHeight);
-            if (m_Rigidbody2D.velocity.y <= -maxFallVelocity) m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -maxFallVelocity);
         }
     }
 
