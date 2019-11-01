@@ -14,6 +14,7 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] private Vector2 colliderPos;
     [SerializeField] private float colliderRadius;
 
+    private bool isTherePlayer = true;
     private Rigidbody2D rb2D;
 
     private void Start()
@@ -64,9 +65,12 @@ public class ProjectileController : MonoBehaviour
                 if (isGoRight == true) transform.position = new Vector2(targetPosX, transform.position.y);
                 else transform.position = new Vector2(targetPosX, transform.position.y);
 
-                GetComponent<Collider2D>().isTrigger = false;
-                gameObject.layer = LayerMask.NameToLayer("Platform");
-                enabled = false;
+                if (!isTherePlayer)
+                {
+                    GetComponent<Collider2D>().isTrigger = false;
+                    gameObject.layer = LayerMask.NameToLayer("Platform");
+                    enabled = false;
+                }
                 return;
             }
 
@@ -92,6 +96,22 @@ public class ProjectileController : MonoBehaviour
                 enabled = false;
                 return;
             }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D coll)
+    {
+        if (coll.tag == "Player")
+        {
+            isTherePlayer = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D coll)
+    {
+        if (coll.tag == "Player")
+        {
+            isTherePlayer = false;
         }
     }
 }
