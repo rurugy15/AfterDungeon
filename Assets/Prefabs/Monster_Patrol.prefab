@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1202381551}
   - component: {fileID: 4343298481362634044}
   m_Layer: 11
-  m_Name: Monster
+  m_Name: Monster_Patrol
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   patroller: {fileID: 4343298479496487556}
   sight: {fileID: 1202381551}
   shooter: {fileID: 4343298481362634044}
-  attackType: 0
+  attackType: 1
   isFacingRight: 1
   isFindHero: 0
 --- !u!114 &4343298479496487556
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca43cb6b0a6f9bb4e887b33a268e5707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRange: 5
+  viewRange: 3
   viewAngle: 60
   targetLayer:
     serializedVersion: 2
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a36ce10153e94d418c0ec04abe8b512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 4677124846470903992, guid: cf985818c0d6d9649bf7c9048f7f8b46,
-    type: 3}
+  projectile: {fileID: 0}
   speed: 10
   delay: 3
+  shootPos: {x: 0, y: 0}
