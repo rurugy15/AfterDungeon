@@ -88,12 +88,11 @@ public class ProjectileController : MonoBehaviour
 
             if (fallenLayer == (fallenLayer | (1 << coll.gameObject.layer)))
             {
-                Debug.Log("떨어집니다..");
                 rb2D.velocity = new Vector2(0, rb2D.velocity.y);
                 rb2D.bodyType = RigidbodyType2D.Dynamic;
                 rb2D.gravityScale = 3f;
                 GetComponent<Collider2D>().enabled = false;
-                StartCoroutine(SelfDestruct(3f));
+                enabled = false;
                 return;
             }
         }
@@ -113,12 +112,5 @@ public class ProjectileController : MonoBehaviour
         {
             isTherePlayer = false;
         }
-    }
-
-    private IEnumerator SelfDestruct(float t)
-    {
-        yield return new WaitForSeconds(t);
-
-        Destroy(gameObject);
     }
 }
