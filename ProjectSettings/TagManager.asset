@@ -45,9 +45,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Props
+    uniqueID: 1298425729
+    locked: 0
   - name: Lava
     uniqueID: 2600101155
     locked: 0
   - name: Character
     uniqueID: 2568901331
+    locked: 0
+  - name: UI
+    uniqueID: 3296965305
     locked: 0
