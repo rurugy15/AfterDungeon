@@ -10,8 +10,14 @@ public class Portal : MonoBehaviour
     {
         if (coll.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            coll.gameObject.transform.position = Exit.position;
-            coll.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            GameObject player = coll.gameObject;
+            PortalAction(player);
         }
+    }
+
+    protected virtual void PortalAction(GameObject player)
+    {
+        player.transform.position = Exit.position;
+        player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
 }
