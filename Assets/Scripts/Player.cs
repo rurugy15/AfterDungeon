@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         rb2D.gravityScale = 3f;
 
         GetComponent<Collider2D>().enabled = false;
-        this.enabled = false;
+        enabled = false;
     }
 
     private IEnumerator MildJump(int frameCnt)

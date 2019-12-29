@@ -120,12 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &125768442 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 224290068193353712, guid: 4e721bde9bd43a24c98be8efc6543138,
-    type: 3}
-  m_PrefabInstance: {fileID: 224290067163403964}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &762826839
 GameObject:
   m_ObjectHideFlags: 0
@@ -2246,21 +2240,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: groundChecker
-      value: 
-      objectReference: {fileID: 125768442}
-    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: maxHeight
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290068193353719, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: m_Name
-      value: GroundChecker
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e721bde9bd43a24c98be8efc6543138, type: 3}
