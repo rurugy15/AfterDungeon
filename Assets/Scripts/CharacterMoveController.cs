@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class CharacterMoveController : MonoBehaviour
 {
-    [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
     [SerializeField] [Range(0, 100f)] private float acceleration = 5f;          // 프레임당 가속도
     [SerializeField] [Range(0, 100f)] private float deceleration = 5f;          // 프레임당 감속도
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
