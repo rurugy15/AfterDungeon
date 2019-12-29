@@ -3,40 +3,51 @@ using System.Collections.Generic;
 
 public class CharacterMoveController : MonoBehaviour
 {
-    [SerializeField] [Range(0, 100f)] private float acceleration = 5f;          // 프레임당 가속도
-    [SerializeField] [Range(0, 100f)] private float deceleration = 5f;          // 프레임당 감속도
+    [Header("Vertical Movement")]
+    [SerializeField] [Range(0, 100f)] private float acceleration;               // 프레임당 가속도
+    [SerializeField] [Range(0, 100f)] private float deceleration;               // 프레임당 감속도
+    private bool m_FacingRight = true;
+
+    [Header("Horizontal Movement")]
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
-    [SerializeField] private List<Transform> m_GroundChecker;                   // A position marking where to check if the player is grounded.
+    [SerializeField] private Transform groundChecker;                           // A position marking where to check if the player is grounded.
     [SerializeField] private float maxHeight;                                   // 점프 최대 높이
     [SerializeField] private float ascentTime;                                  // 점프 상승 시간
     [SerializeField] private float flightTime;                                  // 점프 체공 시간
+    private float jumpingGravity;
+    private float fallingGravity;
+    private float jumpingVelocity;
+    private float terminalVelocity;
 
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
     private Rigidbody2D m_Rigidbody2D;
-    private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    
     private Vector3 velocity = Vector3.zero;
-    private float lastGroundedTime = 0;
 
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
     }
-    
+
+    private void Start()
+    {
+        jumpingGravity = 2 * maxHeight / (9.8f * (ascentTime * ascentTime));
+        fallingGravity = 2 * maxHeight / (9.8f * Mathf.Pow((flightTime - ascentTime), 2));
+        jumpingVelocity = 2 * maxHeight / ascentTime;
+        terminalVelocity = Mathf.Sqrt(2 * fallingGravity * 9.8f * maxHeight);
+    }
+
     private void FixedUpdate()
     {
-        //m_Grounded = false;
-
         GroundChecking();
 
         // 떨어질 때
         if (m_Rigidbody2D.velocity.y <= 0)
         {
-            float fallGravity = 2 * maxHeight / (9.8f * Mathf.Pow((flightTime - ascentTime), 2));
-            m_Rigidbody2D.gravityScale = fallGravity;
+            m_Rigidbody2D.gravityScale = fallingGravity;
 
-            float maxFallVelocity = Mathf.Sqrt(2 * fallGravity * 9.8f * maxHeight);
-            if (m_Rigidbody2D.velocity.y <= -maxFallVelocity) m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -maxFallVelocity);
+            if (m_Rigidbody2D.velocity.y <= -terminalVelocity) m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -terminalVelocity);
         }
     }
 
@@ -45,55 +56,44 @@ public class CharacterMoveController : MonoBehaviour
         // 상승 중에는 점프 불가
         if (m_Rigidbody2D.velocity.y >= 0.01f) return;
 
-        List<Collider2D> colliders = new List<Collider2D>();
-        foreach (Transform groundcheck in m_GroundChecker)
+        Collider2D[] colls = Physics2D.OverlapBoxAll(groundChecker.position, new Vector2(0.75f, k_GroundedRadius), 0, m_WhatIsGround);
+
+        for (int i = 0; i < colls.Length; i++)
         {
-            Collider2D[] colls = Physics2D.OverlapBoxAll(groundcheck.position, new Vector2(0.75f, k_GroundedRadius), 0, m_WhatIsGround);
-            foreach (Collider2D coll in colls)
+            if (colls[i].gameObject != gameObject)
             {
-                colliders.Add(coll);
+                m_Grounded = true;
+                return;
             }
         }
 
-        for (int i = 0; i < colliders.Count; i++)
-        {
-            if (colliders[i].gameObject != gameObject)
-            {
-                //m_Grounded = true;
-                lastGroundedTime = Time.time;
-                break;
-            }
-        }
+        m_Grounded = false;
     }
 
     public void Move(float speed, bool jump)
     {
-        VelocityControl(speed);
+        HorizontalVelocityControl(speed);
 
         // If the input is moving the player right and the player is facing left...
         if (speed > 0 && !m_FacingRight)
         {
-            // ... flip the player.
             Flip();
         }
         // Otherwise if the input is moving the player left and the player is facing right...
         else if (speed < 0 && m_FacingRight)
         {
-            // ... flip the player.
             Flip();
         }
 
         // If the player should jump...
-        if ((/*m_Grounded ||*/ (Time.time - lastGroundedTime <= 0.1f)) && jump)
+        if (m_Grounded && jump)
         {
             // Add a vertical force to the player.
-            //m_Grounded = false;
+            m_Grounded = false;
 
-            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0);
             // 위로 올라갈때
-            float initailV = 2 * maxHeight / ascentTime;
-            m_Rigidbody2D.velocity += new Vector2(0, initailV);
-            m_Rigidbody2D.gravityScale = 2 * maxHeight / (9.8f * (ascentTime * ascentTime));
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, jumpingVelocity);
+            m_Rigidbody2D.gravityScale = jumpingGravity;
         }
     }
     
@@ -108,7 +108,7 @@ public class CharacterMoveController : MonoBehaviour
         transform.localScale = theScale;
     }
 
-    private void VelocityControl(float targetV)
+    private void HorizontalVelocityControl(float targetV)
     {
         float nowV = m_Rigidbody2D.velocity.x;
         float changedV = 0;
