@@ -50,7 +50,7 @@ public class CharacterMoveController : MonoBehaviour
         // 상승 중에는 점프 불가
         if (m_Rigidbody2D.velocity.y >= 0.01f) return;
 
-        Collider2D[] colls = Physics2D.OverlapBoxAll(groundChecker.position, new Vector2(0.75f, k_GroundedRadius), 0, m_WhatIsGround);
+        Collider2D[] colls = Physics2D.OverlapBoxAll(groundChecker.position, new Vector2(0.7f, k_GroundedRadius), 0, m_WhatIsGround);
 
         for (int i = 0; i < colls.Length; i++)
         {
