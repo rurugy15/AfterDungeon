@@ -11,33 +11,38 @@ public class CharacterMoveController : MonoBehaviour
     [Header("Horizontal Movement")]
     [SerializeField] private LayerMask m_WhatIsGround;              // A mask determining what is ground to the character
     [SerializeField] private Transform groundChecker;               // A position marking where to check if the player is grounded.
-    [SerializeField] private float maxHeight;                       // 점프 최대 높이
-    [SerializeField] private float ascentTime;                      // 점프 상승 시간
-    [SerializeField] private float flightTime;                      // 점프 체공 시간
+    [SerializeField] private float minInputTime;                    // 최소 인풋 시간
+    [SerializeField] private float maxInputTime;                    // 최대 인풋 시간
+    [SerializeField] private float flightTime;                      // 최대 인풋 시 점프 체공 시간
+    const float maxInputHeight = 5f;                                // 최대 인풋이 끝났을 때 도달하는 높이
+    const float maxHeight = 5.2f;                                   // 점프 최대 높이
+    private float jumpTimeCounter;
+    private bool canJump = false;
+
     [SerializeField] private float allowedJumpTime;                 // 플랫폼을 벗어난 뒤에도 점프를 할 수 있도록 허용된 시간
     private float lastGroundedTime;
+
+    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
+    private bool m_Grounded;            // Whether or not the player is grounded.
+    private Rigidbody2D rb;
     private float jumpingGravity;
     private float fallingGravity;
     private float jumpingVelocity;
     private float terminalVelocity;
 
-    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-    private bool m_Grounded;            // Whether or not the player is grounded.
-    private Rigidbody2D m_Rigidbody2D;
-    
     private Vector3 velocity = Vector3.zero;
 
     private void Awake()
     {
-        m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {
-        jumpingGravity = 2 * maxHeight / (9.8f * (ascentTime * ascentTime));
-        fallingGravity = 2 * maxHeight / (9.8f * Mathf.Pow((flightTime - ascentTime), 2));
-        jumpingVelocity = 2 * maxHeight / ascentTime;
-        terminalVelocity = Mathf.Sqrt(2 * fallingGravity * 9.8f * maxHeight);
+        jumpingVelocity = maxHeight / (maxInputTime - minInputTime);
+        jumpingGravity = jumpingVelocity * jumpingVelocity / (2 * 9.81f * (maxHeight - maxInputHeight));
+        fallingGravity = 2 * maxHeight / (9.81f * Mathf.Pow((flightTime - maxInputTime), 2));
+        terminalVelocity = Mathf.Sqrt(2 * fallingGravity * 9.81f * maxHeight);
     }
 
     private void FixedUpdate()
@@ -48,7 +53,7 @@ public class CharacterMoveController : MonoBehaviour
     private void GroundChecking()
     {
         // 상승 중에는 점프 불가
-        if (m_Rigidbody2D.velocity.y >= 0.01f) return;
+        if (rb.velocity.y >= 0.01f) return;
 
         Collider2D[] colls = Physics2D.OverlapBoxAll(groundChecker.position, new Vector2(0.7f, k_GroundedRadius), 0, m_WhatIsGround);
 
@@ -97,28 +102,52 @@ public class CharacterMoveController : MonoBehaviour
 
     private void JumpMovement(bool jump)
     {
-        if (m_Grounded && jump)
-        {
-            // Add a vertical force to the player.
-            m_Grounded = false;
+        if (!jump) jumpTimeCounter = 0;
+        if (m_Grounded && !jump && !canJump) canJump = true;
 
-            // 위로 올라갈때
-            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, jumpingVelocity);
-            m_Rigidbody2D.gravityScale = jumpingGravity;
+        if (jump && jumpTimeCounter > 0)
+        {
+            jumpTimeCounter -= Time.fixedDeltaTime;
+            Debug.Log("점프 인풋 시간 차감 : " + jumpTimeCounter);
         }
 
-        // 떨어질 때
-        if (m_Rigidbody2D.velocity.y <= 0)
+        if (m_Grounded && jump && jumpTimeCounter == 0)
         {
-            m_Rigidbody2D.gravityScale = fallingGravity;
+            jumpTimeCounter = maxInputTime;
+            Debug.Log("점프 타이머 셋팅");
+        }
+        
+        if (m_Grounded && jump && canJump && jumpTimeCounter <= maxInputTime - minInputTime)
+        {
+            Debug.Log("유효한 점프 입력 : " + jumpTimeCounter);
+            m_Grounded = false;
+            canJump = false;
 
-            if (m_Rigidbody2D.velocity.y <= -terminalVelocity) m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -terminalVelocity);
+            rb.velocity = new Vector2(rb.velocity.x, jumpingVelocity);
+            rb.gravityScale = 0;
+        }
+
+        if (rb.velocity.y > 0)
+        {
+            rb.gravityScale = jumpingGravity;
+            if (jump && jumpTimeCounter > 0)
+            {
+                rb.gravityScale = 0;
+                Debug.Log(jumpTimeCounter);
+            }
+                
+        }
+        else
+        {
+            rb.gravityScale = fallingGravity;
+
+            if (rb.velocity.y <= -terminalVelocity) rb.velocity = new Vector2(rb.velocity.x, -terminalVelocity);
         }
     }
 
     private void HorizontalVelocityControl(float targetV)
     {
-        float nowV = m_Rigidbody2D.velocity.x;
+        float nowV = rb.velocity.x;
         float changedV = 0;
 
         if (nowV == targetV) return;
@@ -165,6 +194,6 @@ public class CharacterMoveController : MonoBehaviour
             }
         }
 
-        m_Rigidbody2D.velocity = new Vector2(changedV, m_Rigidbody2D.velocity.y);
+        rb.velocity = new Vector2(changedV, rb.velocity.y);
     }
 }
