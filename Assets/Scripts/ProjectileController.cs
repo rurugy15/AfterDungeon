@@ -69,7 +69,7 @@ public class ProjectileController : MonoBehaviour
                 if (!isTherePlayer)
                 {
                     GetComponent<Collider2D>().isTrigger = false;
-                    gameObject.layer = LayerMask.NameToLayer("Platform");
+                    gameObject.layer = LayerMask.NameToLayer("UnlodgedPlatform");
                     enabled = false;
                 }
                 return;

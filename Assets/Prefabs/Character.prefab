@@ -188,8 +188,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 9728
   groundChecker: {fileID: 224290068193353712}
-  maxHeight: 6.8
-  ascentTime: 0.45
+  minInputTime: 0.05
+  maxInputTime: 0.4
   flightTime: 0.8
   allowedJumpTime: 0.1
 --- !u!114 &224290067508189615
