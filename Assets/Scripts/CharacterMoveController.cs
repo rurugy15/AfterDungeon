@@ -108,18 +108,15 @@ public class CharacterMoveController : MonoBehaviour
         if (jump && jumpTimeCounter > 0)
         {
             jumpTimeCounter -= Time.fixedDeltaTime;
-            Debug.Log("점프 인풋 시간 차감 : " + jumpTimeCounter);
         }
 
         if (m_Grounded && jump && jumpTimeCounter == 0)
         {
             jumpTimeCounter = maxInputTime;
-            Debug.Log("점프 타이머 셋팅");
         }
         
         if (m_Grounded && jump && canJump && jumpTimeCounter <= maxInputTime - minInputTime)
         {
-            Debug.Log("유효한 점프 입력 : " + jumpTimeCounter);
             m_Grounded = false;
             canJump = false;
 
@@ -133,9 +130,7 @@ public class CharacterMoveController : MonoBehaviour
             if (jump && jumpTimeCounter > 0)
             {
                 rb.gravityScale = 0;
-                Debug.Log(jumpTimeCounter);
             }
-                
         }
         else
         {
