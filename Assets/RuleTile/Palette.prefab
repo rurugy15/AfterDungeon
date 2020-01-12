@@ -95,6 +95,16 @@ Tilemap:
         type: 3}
       m_TileFlags: 2
       m_ColliderType: 1
+  - first: {x: 0, y: -1, z: 0}
+    second:
+      m_TileIndex: 3
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 5242033492551539567, guid: e37ab73b44590224b805826f2f870161,
+        type: 3}
+      m_TileFlags: 2
+      m_ColliderType: 1
   - first: {x: 0, y: 0, z: 0}
     second:
       m_TileIndex: 1
@@ -111,7 +121,7 @@ Tilemap:
       m_TileSpriteIndex: 3
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
-      m_ObjectToInstantiate: {fileID: 8404646034424953542, guid: 6c5219daf775ebf4f92546da8a4179ee,
+      m_ObjectToInstantiate: {fileID: 2733597940409565223, guid: 8bc9d027b3d23be4696fdb443a39bd24,
         type: 3}
       m_TileFlags: 2
       m_ColliderType: 0
@@ -133,8 +143,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 96fad5a4bc655694d85c2420a1a2afda, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 8d73f233663bc484a9aa6a78b2c2f2f4, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 432d3d375a723b147aeff715805c1d4d, type: 2}
   - m_RefCount: 1
@@ -142,8 +152,8 @@ Tilemap:
   m_TileSpriteArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 515f1eae8ab1ea94e92e69057fbcf84d, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 983534749766791093, guid: a920e7fc7a28ac549b33fd3d7bf6fe90, type: 3}
   - m_RefCount: 1
@@ -155,7 +165,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 3b1262c7d5e79134e9445cadc8a2cb28, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 4
+  - m_RefCount: 5
     m_Data:
       e00: 1
       e01: 0
@@ -174,7 +184,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 4
+  - m_RefCount: 5
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   - m_RefCount: 0
     m_Data: {r: 9.46306e-37, g: 9.46306e-37, b: 9.46306e-37, a: 9.46306e-37}

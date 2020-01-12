@@ -7,7 +7,7 @@ TagManager:
   - Wall
   - Monster
   - Portal
-  - OneWayPlatform
+  - Arrow
   layers:
   - Default
   - TransparentFX
