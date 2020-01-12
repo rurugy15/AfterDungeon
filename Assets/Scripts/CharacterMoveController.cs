@@ -11,11 +11,10 @@ public class CharacterMoveController : MonoBehaviour
     [Header("Horizontal Movement")]
     [SerializeField] private LayerMask m_WhatIsGround;              // A mask determining what is ground to the character
     [SerializeField] private Transform groundChecker;               // A position marking where to check if the player is grounded.
-    [SerializeField] private float minInputTime;                    // 최소 인풋 시간
-    [SerializeField] private float maxInputTime;                    // 최대 인풋 시간
-    [SerializeField] private float flightTime;                      // 최대 인풋 시 점프 체공 시간
-    const float maxInputHeight = 5f;                                // 최대 인풋이 끝났을 때 도달하는 높이
-    const float maxHeight = 5.2f;                                   // 점프 최대 높이
+    [SerializeField] private float jumpVelocity;
+    [SerializeField] private float jumpingGravity;
+    [SerializeField] private float fallingGravity;
+    [SerializeField] private float maxInputTime;
     private float jumpTimeCounter;
     private bool canJump = false;
 
@@ -25,9 +24,6 @@ public class CharacterMoveController : MonoBehaviour
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
     private Rigidbody2D rb;
-    private float jumpingGravity;
-    private float fallingGravity;
-    private float jumpingVelocity;
     private float terminalVelocity;
 
     private Vector3 velocity = Vector3.zero;
@@ -39,10 +35,7 @@ public class CharacterMoveController : MonoBehaviour
 
     private void Start()
     {
-        jumpingVelocity = maxHeight / (maxInputTime - minInputTime);
-        jumpingGravity = jumpingVelocity * jumpingVelocity / (2 * 9.81f * (maxHeight - maxInputHeight));
-        fallingGravity = 2 * maxHeight / (9.81f * Mathf.Pow((flightTime - maxInputTime), 2));
-        terminalVelocity = Mathf.Sqrt(2 * fallingGravity * 9.81f * maxHeight);
+        terminalVelocity = 2 * jumpVelocity;
     }
 
     private void FixedUpdate()
@@ -74,6 +67,8 @@ public class CharacterMoveController : MonoBehaviour
 
     public void Move(float speed, bool jump)
     {
+        if (!canJump && !jump && m_Grounded) canJump = true;
+
         HorizontalVelocityControl(speed);
         JumpMovement(jump);
 
@@ -103,40 +98,33 @@ public class CharacterMoveController : MonoBehaviour
     private void JumpMovement(bool jump)
     {
         if (!jump) jumpTimeCounter = 0;
-        if (m_Grounded && !jump && !canJump) canJump = true;
 
-        if (jump && jumpTimeCounter > 0)
+        // If the player is on ground and try to jump
+        if (m_Grounded && jump && canJump)
+        {
+            jumpTimeCounter = maxInputTime;
+
+            canJump = false;
+            m_Grounded = false;
+            rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
+        }
+
+        // If the player is not ground and try to jump
+        if (!m_Grounded && jump && jumpTimeCounter > 0)
         {
             jumpTimeCounter -= Time.fixedDeltaTime;
         }
 
-        if (m_Grounded && jump && jumpTimeCounter == 0)
-        {
-            jumpTimeCounter = maxInputTime;
-        }
-        
-        if (m_Grounded && jump && canJump && jumpTimeCounter <= maxInputTime - minInputTime)
-        {
-            m_Grounded = false;
-            canJump = false;
-
-            rb.velocity = new Vector2(rb.velocity.x, jumpingVelocity);
-            rb.gravityScale = 0;
-        }
-
+        // Change gravity
         if (rb.velocity.y > 0)
         {
-            rb.gravityScale = jumpingGravity;
+            rb.gravityScale = fallingGravity;
             if (jump && jumpTimeCounter > 0)
-            {
-                rb.gravityScale = 0;
-            }
+                rb.gravityScale = jumpingGravity;
         }
         else
         {
             rb.gravityScale = fallingGravity;
-
-            if (rb.velocity.y <= -terminalVelocity) rb.velocity = new Vector2(rb.velocity.x, -terminalVelocity);
         }
     }
 
