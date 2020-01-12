@@ -21,8 +21,8 @@ public class CharacterShootController : MonoBehaviour
         Vector2 nowShootPos = isFacingRight ? shootPos : shootPos * new Vector2(-1, 1);
 
         GameObject project = Instantiate(projectile, shooterPos + nowShootPos, Quaternion.identity);
-        project.GetComponent<ProjectileController>().speed = speed;
-        project.GetComponent<ProjectileController>().isGoRight = isFacingRight;
+        project.GetComponent<ArrowController>().speed = speed;
+        project.GetComponent<ArrowController>().isGoRight = isFacingRight;
     }
 
     private void OnDrawGizmos()

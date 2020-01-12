@@ -8,6 +8,8 @@ TagManager:
   - Monster
   - Portal
   - Arrow
+  - Platform
+  - Rail
   layers:
   - Default
   - TransparentFX
