@@ -1278,12 +1278,32 @@ PrefabInstance:
     - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
         type: 3}
       propertyPath: maxInputTime
-      value: 0.01
+      value: 0.483
       objectReference: {fileID: 0}
     - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
         type: 3}
       propertyPath: minInputTime
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
+        type: 3}
+      propertyPath: jumpingGravity
+      value: 3.7716615
+      objectReference: {fileID: 0}
+    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
+        type: 3}
+      propertyPath: jumpingVelocity
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
+        type: 3}
+      propertyPath: fallingGravity
+      value: 16.309887
+      objectReference: {fileID: 0}
+    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
+        type: 3}
+      propertyPath: jumpVelocity
+      value: 17.889
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e721bde9bd43a24c98be8efc6543138, type: 3}

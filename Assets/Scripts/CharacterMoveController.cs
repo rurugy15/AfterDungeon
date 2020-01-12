@@ -61,8 +61,11 @@ public class CharacterMoveController : MonoBehaviour
         }
 
         // 마지막으로 땅에 있었던 시간에서 허용된 점프 시간보다 오래 지나면 땅에서 떨어진 것으로 판정
-        if(Time.time - lastGroundedTime > allowedJumpTime)
+        if (Time.time - lastGroundedTime > allowedJumpTime)
+        {
             m_Grounded = false;
+            canJump = false;
+        }            
     }
 
     public void Move(float speed, bool jump)
