@@ -6,9 +6,6 @@ public class ArrowController : MonoBehaviour
 {
     public float speed = 100f;
     public bool isGoRight = true;
-    [SerializeField] private LayerMask attackLayer;
-    [SerializeField] private LayerMask lodgedLayer;
-    [SerializeField] private LayerMask fallenLayer;
 
     [Header("Colliding Check")]
     [SerializeField] private Vector2 colliderPos;
