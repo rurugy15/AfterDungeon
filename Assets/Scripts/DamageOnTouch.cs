@@ -12,7 +12,7 @@ public class DamageOnTouch : MonoBehaviour
     private void Start()
     {
         attackPos = transform.position;
-        attackSize = GetComponent<BoxCollider2D>().size;
+        //attackSize = GetComponent<Collider2D>().size;
     }
 
     private void OnCollisionEnter2D(Collision2D coll)
