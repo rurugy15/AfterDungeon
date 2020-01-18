@@ -4,12 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Wall
   - Monster
   - Portal
   - Arrow
   - Platform
   - Rail
+  - Lever Platform
   layers:
   - Default
   - TransparentFX
