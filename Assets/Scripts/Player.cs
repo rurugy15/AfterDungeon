@@ -26,6 +26,10 @@ public class Player : MonoBehaviour
         {
             jump = true;
         }
+        if (Input.GetButtonUp("Jump"))
+        {
+            jump = false;
+        }
         if (Input.GetButtonDown("Fire1"))
         {
             animator.SetTrigger("Shoot");
@@ -38,7 +42,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         moveController.Move(horizontalMove, jump);
-        StartCoroutine(MildJump(mildJumpFrame));
+        //StartCoroutine(MildJump(mildJumpFrame));
     }
 
     private void OnTriggerEnter2D(Collider2D coll)

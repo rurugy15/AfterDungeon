@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: MovingWall_UpDown
+  m_Name: Rail
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 21300000, guid: 515f1eae8ab1ea94e92e69057fbcf84d, type: 3}
-  m_DefaultGameObject: {fileID: 4510717659963178570, guid: f4a2ee1c6ad6db249bf330597ed4021a,
-    type: 3}
+  m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules:
   - m_Neighbors: 0000000000000000000000000000000000000000000000000000000000000000
     m_Sprites:
     - {fileID: 21300000, guid: 515f1eae8ab1ea94e92e69057fbcf84d, type: 3}
-    m_GameObject: {fileID: 4510717659963178570, guid: f4a2ee1c6ad6db249bf330597ed4021a,
+    m_GameObject: {fileID: 5242033492551539567, guid: e37ab73b44590224b805826f2f870161,
       type: 3}
     m_AnimationSpeed: 1
     m_PerlinScale: 0.5
