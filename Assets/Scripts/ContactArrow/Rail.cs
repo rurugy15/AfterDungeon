@@ -14,7 +14,6 @@ public class Rail : ContactArrow
         rb2D.bodyType = RigidbodyType2D.Static;
 
         float targetPosX = transform.position.x;
-        arrow.transform.parent = transform;
         arrow.transform.position = new Vector2(targetPosX, arrow.transform.position.y);
     }
 
@@ -37,7 +36,7 @@ public class Rail : ContactArrow
             arrow.GetComponent<Collider2D>().isTrigger = false;
             arrow.layer = LayerMask.NameToLayer("UnlodgedPlatform");
         }
-        Debug.Log("Colliding with Rail...");
+        //Debug.Log("Colliding with Rail...");
 
         arrow.transform.localPosition += new Vector3(0, speed * Time.fixedDeltaTime);
     }

@@ -83,8 +83,9 @@ public class ArrowController : MonoBehaviour
         }
         else
         {
-            if (lodgingObject == target) OnLodgingStay(lodgingObject);
-            else if (target == null) OnLodgingExit(lodgingObject);
+            if (target == null) OnLodgingExit(lodgingObject);
+            else if (lodgingObject.tag == target.tag) OnLodgingStay(lodgingObject);
+            else OnLodgingExit(lodgingObject);
         }
 
         lodgingObject = target;
