@@ -43,7 +43,8 @@ public class Lever : ContactArrow
     {
         foreach (GameObject leverPlatform in leverPlatforms)
         {
-            leverPlatform.SetActive(false);
+            leverPlatform.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+
         }
 
         Debug.Log("Disappear");
@@ -54,7 +55,7 @@ public class Lever : ContactArrow
 
         foreach (GameObject leverPlatform in leverPlatforms)
         {
-            leverPlatform.SetActive(true);
+            leverPlatform.GetComponent<SpriteRenderer>().color = Color.red;
         }
     }
 }

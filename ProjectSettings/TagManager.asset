@@ -50,6 +50,12 @@ TagManager:
   - name: Props
     uniqueID: 1298425729
     locked: 0
+  - name: Arrow
+    uniqueID: 547889727
+    locked: 0
+  - name: Platform
+    uniqueID: 2290676527
+    locked: 0
   - name: Lava
     uniqueID: 2600101155
     locked: 0
