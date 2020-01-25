@@ -15,6 +15,7 @@ public class CharacterMoveController : MonoBehaviour
     [SerializeField] private float jumpingGravity;
     [SerializeField] private float fallingGravity;
     [SerializeField] private float maxInputTime;
+    [SerializeField] private float currentGravity;
     private float jumpTimeCounter;
     private bool canJump = false;
 
@@ -103,6 +104,7 @@ public class CharacterMoveController : MonoBehaviour
         if (!jump) jumpTimeCounter = 0;
 
         // If the player is on ground and try to jump
+        // 점프 상승 시작
         if (m_Grounded && jump && canJump)
         {
             jumpTimeCounter = maxInputTime;
@@ -110,25 +112,22 @@ public class CharacterMoveController : MonoBehaviour
             canJump = false;
             m_Grounded = false;
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
+            currentGravity = jumpingGravity;
         }
 
         // If the player is not ground and try to jump
+        // 점프 상승 도중
         if (!m_Grounded && jump && jumpTimeCounter > 0)
         {
             jumpTimeCounter -= Time.fixedDeltaTime;
+            currentGravity = jumpingGravity;
         }
 
         // Change gravity
-        if (rb.velocity.y > 0)
-        {
-            rb.gravityScale = fallingGravity;
-            if (jump && jumpTimeCounter > 0)
-                rb.gravityScale = jumpingGravity;
-        }
-        else
-        {
-            rb.gravityScale = fallingGravity;
-        }
+        if (!jump || jumpTimeCounter <= 0 || rb.velocity.y < 0)
+            currentGravity = fallingGravity;
+
+        rb.gravityScale = currentGravity;
     }
 
     private void HorizontalVelocityControl(float targetV)
