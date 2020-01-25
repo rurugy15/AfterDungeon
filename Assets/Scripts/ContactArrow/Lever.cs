@@ -5,6 +5,7 @@ using UnityEngine;
 public class Lever : ContactArrow
 {
     private List<GameObject> leverPlatforms;
+    private bool isActive = false;
 
     private void Start()
     {
@@ -15,11 +16,13 @@ public class Lever : ContactArrow
         {
             leverPlatforms.Add(platform);
         }
+
+        ActivatePlatform();
     }
 
     public override void OnLodgingEnterAction(GameObject arrow)
     {
-        StartCoroutine(DisappearLeverPlatform());
+        ActivatePlatform();
         
         Rigidbody2D rb2D = arrow.GetComponent<Rigidbody2D>();
 
@@ -39,23 +42,25 @@ public class Lever : ContactArrow
     {
     }
 
-    private IEnumerator DisappearLeverPlatform()
+    private void ActivatePlatform()
     {
-        foreach (GameObject leverPlatform in leverPlatforms)
-        {
-            leverPlatform.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+        isActive = !isActive;
 
+        if (isActive)
+        {
+            foreach (GameObject leverPlatform in leverPlatforms)
+            {
+                leverPlatform.GetComponent<SpriteRenderer>().color = Color.red;
+                leverPlatform.GetComponent<Collider2D>().enabled = true;
+            }
         }
-
-        Debug.Log("Disappear");
-
-        yield return new WaitForSeconds(3f);
-
-        Debug.Log("Appear");
-
-        foreach (GameObject leverPlatform in leverPlatforms)
+        else
         {
-            leverPlatform.GetComponent<SpriteRenderer>().color = Color.red;
+            foreach (GameObject leverPlatform in leverPlatforms)
+            {
+                leverPlatform.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
+                leverPlatform.GetComponent<Collider2D>().enabled = false;
+            }
         }
     }
 }
