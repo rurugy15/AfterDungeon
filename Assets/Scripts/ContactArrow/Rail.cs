@@ -34,7 +34,7 @@ public class Rail : ContactArrow
         if (!arrow.GetComponent<ArrowController>().IsTherePlayer)
         {
             arrow.GetComponent<Collider2D>().isTrigger = false;
-            arrow.layer = LayerMask.NameToLayer("UnlodgedPlatform");
+            arrow.layer = LayerMask.NameToLayer("Platform");
         }
         //Debug.Log("Colliding with Rail...");
 
