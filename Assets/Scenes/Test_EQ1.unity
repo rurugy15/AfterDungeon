@@ -1469,6 +1469,16 @@ PrefabInstance:
       propertyPath: fallingGravity
       value: 20.38736
       objectReference: {fileID: 0}
+    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
+        type: 3}
+      propertyPath: jumpHeight
+      value: 3.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224290067508189604, guid: 4e721bde9bd43a24c98be8efc6543138,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e721bde9bd43a24c98be8efc6543138, type: 3}
 --- !u!1001 &3773256693033184432
