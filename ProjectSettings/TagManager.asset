@@ -20,8 +20,8 @@ TagManager:
   - 
   - 
   - Player
-  - LodegedPlatform
-  - UnlodgedPlatform
+  - Platform
+  - Object
   - Monster
   - Projectile
   - 

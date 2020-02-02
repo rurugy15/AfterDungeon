@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6648103230638984785}
   - component: {fileID: 6761260992679384632}
   m_Layer: 9
-  m_Name: Lever Platform
+  m_Name: Platform_3.Lever
   m_TagString: Lever Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
