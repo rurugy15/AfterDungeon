@@ -25,7 +25,7 @@ public class LodgingPlatform : ContactArrow
         if (!arrow.GetComponent<ArrowController>().IsTherePlayer)
         {
             arrow.GetComponent<Collider2D>().isTrigger = false;
-            arrow.layer = LayerMask.NameToLayer("UnlodgedPlatform");
+            arrow.layer = LayerMask.NameToLayer("Platform");
             arrow.GetComponent<ArrowController>().enabled = false;
         }
     }
