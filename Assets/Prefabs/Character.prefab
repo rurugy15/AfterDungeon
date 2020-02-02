@@ -186,7 +186,7 @@ MonoBehaviour:
   deceleration: 70
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 9728
+    m_Bits: 512
   groundChecker: {fileID: 224290068193353712}
   jumpHeight: 3.2
 --- !u!114 &224290067508189615

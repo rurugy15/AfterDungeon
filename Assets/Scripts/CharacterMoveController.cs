@@ -37,6 +37,7 @@ public class CharacterMoveController : MonoBehaviour
     private void FixedUpdate()
     {
         GroundChecking();
+        if (rb.velocity.y < -terminalVelocity) rb.velocity = new Vector2(rb.velocity.x, -terminalVelocity);
     }
 
     private void GroundChecking()
