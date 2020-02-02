@@ -16,6 +16,13 @@ public class Player : MonoBehaviour
     private bool jump = false;
     private bool isFacingRight = true;
 
+    private Vector2 originPos;
+
+    private void Start()
+    {
+        originPos = transform.position;
+    }
+
     private void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
@@ -55,12 +62,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
-        rb2D.velocity = new Vector2(0, 10f);
-        rb2D.gravityScale = 3f;
-
-        GetComponent<Collider2D>().enabled = false;
-        enabled = false;
+        StartCoroutine(BackToOrigin());
     }
 
     private IEnumerator MildJump(int frameCnt)
@@ -73,5 +75,19 @@ public class Player : MonoBehaviour
         }
 
         jump = false;
+    }
+
+    private IEnumerator BackToOrigin()
+    {
+        Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
+
+        rb2D.velocity = new Vector2(0, 15f);
+
+        GetComponent<Collider2D>().enabled = false;
+
+        yield return new WaitForSeconds(2f);
+
+        transform.position = originPos;
+        GetComponent<Collider2D>().enabled = true;
     }
 }
