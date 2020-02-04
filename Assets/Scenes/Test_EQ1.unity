@@ -1439,36 +1439,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: gravityCoefficient
-      value: 20.38736
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: normalGravity
-      value: 5.09684
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: jumpVelocity
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: maxInputTime
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: jumpingGravity
-      value: 3.82263
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290067508189608, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: fallingGravity
-      value: 20.38736
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e721bde9bd43a24c98be8efc6543138, type: 3}
 --- !u!1001 &3773256693033184432
