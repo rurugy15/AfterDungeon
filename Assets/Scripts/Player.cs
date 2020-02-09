@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -85,9 +86,8 @@ public class Player : MonoBehaviour
 
         GetComponent<Collider2D>().enabled = false;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
-        transform.position = originPos;
-        GetComponent<Collider2D>().enabled = true;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
