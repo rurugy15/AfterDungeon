@@ -50,16 +50,14 @@ public class Lever : ContactArrow
         {
             foreach (GameObject leverPlatform in leverPlatforms)
             {
-                leverPlatform.GetComponent<SpriteRenderer>().color = Color.red;
-                leverPlatform.GetComponent<Collider2D>().enabled = true;
+                leverPlatform.GetComponent<LeverPlatform>().Activate();
             }
         }
         else
         {
             foreach (GameObject leverPlatform in leverPlatforms)
             {
-                leverPlatform.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
-                leverPlatform.GetComponent<Collider2D>().enabled = false;
+                leverPlatform.GetComponent<LeverPlatform>().Deactivate();
             }
         }
     }
