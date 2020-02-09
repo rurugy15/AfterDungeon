@@ -127,6 +127,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3773256694171649388, guid: 328cc00ab2e38ba43a66c0255115a6a2,
+        type: 3}
+      propertyPath: m_Name
+      value: Canvas
+      objectReference: {fileID: 0}
     - target: {fileID: 3773256694171649360, guid: 328cc00ab2e38ba43a66c0255115a6a2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -231,11 +236,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3773256694171649388, guid: 328cc00ab2e38ba43a66c0255115a6a2,
-        type: 3}
-      propertyPath: m_Name
-      value: Canvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328cc00ab2e38ba43a66c0255115a6a2, type: 3}
@@ -432,7 +432,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f3f38fb1ae422534fa800de4314fa9cc, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -43126,6 +43126,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 224290067508189613, guid: 4e721bde9bd43a24c98be8efc6543138,
+        type: 3}
+      propertyPath: m_Name
+      value: Character
+      objectReference: {fileID: 0}
     - target: {fileID: 224290067508189606, guid: 4e721bde9bd43a24c98be8efc6543138,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -43185,11 +43190,6 @@ PrefabInstance:
         type: 3}
       propertyPath: maxHeight
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 224290067508189613, guid: 4e721bde9bd43a24c98be8efc6543138,
-        type: 3}
-      propertyPath: m_Name
-      value: Character
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e721bde9bd43a24c98be8efc6543138, type: 3}
