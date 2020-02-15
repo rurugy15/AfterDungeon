@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CharacterMoveController : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
     [Header("Vertical Movement")]
     [SerializeField] [Range(0, 100f)] private float acceleration;   // 프레임당 가속도

@@ -8,7 +8,7 @@ public class MonsterAI : MonoBehaviour
 {
     [SerializeField] private PatrolAreaController patroller;
     [SerializeField] private MonsterSight sight;
-    [SerializeField] private CharacterShootController shooter;
+    [SerializeField] private PlayerShoot shooter;
     [SerializeField] private AttackType attackType;
 
     private bool canShoot = false;

@@ -19,5 +19,6 @@ public class Portal : MonoBehaviour
     {
         player.transform.position = Exit.position;
         player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        player.GetComponent<Player>().Save();
     }
 }

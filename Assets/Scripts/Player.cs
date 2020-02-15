@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public CharacterMoveController moveController;
-    public CharacterShootController shootController;
-    public Animator animator;
+    private PlayerMove mover;
+    private PlayerShoot shooter;
+    private Animator animator;
 
     [SerializeField] private float runSpeed = 40f;
     [Tooltip("jump 입력이 지속되는 frame 수")]
@@ -21,6 +21,10 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        mover = GetComponent<PlayerMove>();
+        shooter = GetComponent<PlayerShoot>();
+        animator = GetComponent<Animator>();
+
         originPos = transform.position;
     }
 
@@ -41,7 +45,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             animator.SetTrigger("Shoot");
-            shootController.Shoot(transform.position, isFacingRight);
+            shooter.Shoot(transform.position, isFacingRight);
         }
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
@@ -49,7 +53,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        moveController.Move(horizontalMove, jump);
+        mover.Move(horizontalMove, jump);
         //StartCoroutine(MildJump(mildJumpFrame));
     }
 
@@ -88,6 +92,13 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        shooter.DestroyAllArrows();
+        GetComponent<Collider2D>().enabled = true;
+        transform.position = originPos;
+    }
+
+    public void Save()
+    {
+        originPos = transform.position;
     }
 }
