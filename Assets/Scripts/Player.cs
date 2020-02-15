@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -46,6 +45,15 @@ public class Player : MonoBehaviour
         {
             animator.SetTrigger("Shoot");
             shooter.Shoot(transform.position, isFacingRight);
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Portal portal = Camera.main.GetComponent<CameraController>().UpperBoundaryPortal();
+            if (portal)
+            {
+                transform.position = portal.ExitPos;
+                Save();
+            }
         }
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
@@ -92,7 +100,7 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        shooter.DestroyAllArrows();
+        Restart();
         GetComponent<Collider2D>().enabled = true;
         transform.position = originPos;
     }
@@ -100,5 +108,10 @@ public class Player : MonoBehaviour
     public void Save()
     {
         originPos = transform.position;
+    }
+
+    private void Restart()
+    {
+        shooter.DestroyAllArrows();
     }
 }
