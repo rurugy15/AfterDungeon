@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
-    [SerializeField] private Transform Exit;
+    [SerializeField] private Transform exit;
+    public Vector2 ExitPos { get { return exit.position; } }
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
@@ -17,7 +18,8 @@ public class Portal : MonoBehaviour
 
     protected virtual void PortalAction(GameObject player)
     {
-        player.transform.position = Exit.position;
+        player.transform.position = exit.position;
         player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        player.GetComponent<Player>().Save();
     }
 }

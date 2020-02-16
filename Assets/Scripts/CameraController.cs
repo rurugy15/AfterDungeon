@@ -99,4 +99,12 @@ public class CameraController : MonoBehaviour
 
         return null;
     }
+
+    public Portal UpperBoundaryPortal()
+    {
+        int? num = UpperBoundaryPortalNum();
+
+        if (num.HasValue) return portalPos[num.Value].GetComponent<Portal>();
+        else return null;
+    }
 }
