@@ -22,6 +22,7 @@ public class PlayerMove : MonoBehaviour
     private float terminalVelocity;
 
     private Vector3 velocity = Vector3.zero;
+    public bool IsGrounded { get { return m_Grounded; } }
 
     private void Awake()
     {
