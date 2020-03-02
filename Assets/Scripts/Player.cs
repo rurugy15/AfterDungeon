@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public bool canControl;
+
     private PlayerMove mover;
     private PlayerShoot shooter;
     private Animator animator;
@@ -20,6 +22,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        canControl = true;
+
         mover = GetComponent<PlayerMove>();
         shooter = GetComponent<PlayerShoot>();
         animator = GetComponent<Animator>();
@@ -29,6 +33,13 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (canControl == false)
+        {
+            horizontalMove = 0f;
+            jump = false;
+            return;
+        }
+
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         if (horizontalMove > 0) isFacingRight = true;
         else if (horizontalMove < 0) isFacingRight = false;
@@ -62,7 +73,6 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         mover.Move(horizontalMove, jump);
-        //StartCoroutine(MildJump(mildJumpFrame));
     }
 
     private void OnTriggerEnter2D(Collider2D coll)

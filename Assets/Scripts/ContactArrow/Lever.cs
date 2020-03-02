@@ -44,21 +44,9 @@ public class Lever : ContactArrow
 
     private void ActivatePlatform()
     {
-        isActive = !isActive;
-
-        if (isActive)
+        foreach (GameObject leverPlatform in leverPlatforms)
         {
-            foreach (GameObject leverPlatform in leverPlatforms)
-            {
-                leverPlatform.GetComponent<LeverPlatform>().Activate();
-            }
-        }
-        else
-        {
-            foreach (GameObject leverPlatform in leverPlatforms)
-            {
-                leverPlatform.GetComponent<LeverPlatform>().Deactivate();
-            }
+            leverPlatform.GetComponent<LeverPlatform>().ChangeState();
         }
     }
 }

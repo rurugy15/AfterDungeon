@@ -7,13 +7,19 @@ public class LeverPlatform : LodgingPlatform
     [SerializeField] private LayerMask playerLayer;
     private bool targetState = true;
 
-    public void Activate()
+    public void ChangeState()
+    {
+        if (targetState) Deactivate();
+        else Activate();
+    }
+
+    private void Activate()
     {
         targetState = true;
         StartCoroutine(TryToActivate());
     }
 
-    public void Deactivate()
+    private void Deactivate()
     {
         targetState = false;
         GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.5f);
