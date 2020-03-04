@@ -72,7 +72,6 @@ public class ArrowController : MonoBehaviour
         foreach (Collider2D coll in colls)
         {
             if (coll.gameObject == gameObject) continue;
-            if (coll.tag == "Player") continue;
             if (!coll.GetComponent<ContactArrow>()) continue;
 
             target = coll.gameObject;

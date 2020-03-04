@@ -16,13 +16,13 @@ public class PlayerMove : MonoBehaviour
     private bool canJump = false;
     private bool canDoubleJump = false;
 
-    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-    private bool m_Grounded;            // Whether or not the player is grounded.
+    private Vector2 groundBox = new Vector2(0.73f, 0.2f);
+    private bool isGrounded;            // Whether or not the player is grounded.
     private Rigidbody2D rb;
     private float terminalVelocity;
 
     private Vector3 velocity = Vector3.zero;
-    public bool IsGrounded { get { return m_Grounded; } }
+    public bool IsGrounded { get { return isGrounded; } }
 
     private void Awake()
     {
@@ -41,24 +41,31 @@ public class PlayerMove : MonoBehaviour
         if (rb.velocity.y < -terminalVelocity) rb.velocity = new Vector2(rb.velocity.x, -terminalVelocity);
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawWireCube(groundChecker.position, groundBox);
+    }
+
     private void GroundChecking()
     {
         // 상승 중에는 점프 불가
         if (rb.velocity.y >= 0.01f)
         {
-            m_Grounded = false;
+            isGrounded = false;
             return;
         }
 
-        m_Grounded = false;
+        isGrounded = false;
 
-        Collider2D[] colls = Physics2D.OverlapBoxAll(groundChecker.position, new Vector2(0.7f, k_GroundedRadius), 0, m_WhatIsGround);
+        Collider2D[] colls = Physics2D.OverlapBoxAll(groundChecker.position, groundBox, 0, m_WhatIsGround);
 
         for (int i = 0; i < colls.Length; i++)
         {
             if (colls[i].gameObject != gameObject)
             {
-                m_Grounded = true;
+                isGrounded = true;
                 return;
             }
         }    
@@ -97,17 +104,17 @@ public class PlayerMove : MonoBehaviour
         if (!jump) canJump = true;
 
         // 땅을 밟을 시 초기화
-        if (m_Grounded)
+        if (isGrounded)
         {
             canDoubleJump = true;
         }
 
-        if (m_Grounded && jump && canJump)
+        if (isGrounded && jump && canJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
             canJump = false;
         }
-        if (!m_Grounded && jump && canJump && canDoubleJump)
+        if (!isGrounded && jump && canJump && canDoubleJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
             canJump = false;
