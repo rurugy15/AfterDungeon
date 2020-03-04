@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class ArrowController : MonoBehaviour
 {
-    public float speed = 100f;
-    public bool isGoRight = true;
-
     [Header("Colliding Check")]
     [SerializeField] private Vector2 colliderPos;
     [SerializeField] private float colliderRadius;
 
+    private float speed;
+    private bool isGoRight;
     private GameObject lodgingObject = null;
     private bool isTherePlayer = true;
     public bool IsTherePlayer { get { return isTherePlayer; } }
     private Rigidbody2D rb2D;
+
+    public void Initiailize(float speed, bool isGoRight)
+    {
+        this.speed = speed;
+        this.isGoRight = isGoRight;
+    }
 
     private void Start()
     {

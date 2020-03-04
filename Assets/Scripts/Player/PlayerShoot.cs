@@ -22,9 +22,9 @@ public class PlayerShoot : MonoBehaviour
         Vector2 nowShootPos = isFacingRight ? shootPos : shootPos * new Vector2(-1, 1);
 
         GameObject arrow = Instantiate(projectile, shooterPos + nowShootPos, Quaternion.identity);
+        arrow.GetComponent<ArrowController>().Initiailize(speed, isFacingRight);
+        
         arrows.Add(arrow);
-        arrow.GetComponent<ArrowController>().speed = speed;
-        arrow.GetComponent<ArrowController>().isGoRight = isFacingRight;
     }
 
     private void OnDrawGizmos()
