@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: MechArrow Left
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: 67c7e70d1db95144fb02b8bdcdd5fd0f, type: 3}
-  m_DefaultGameObject: {fileID: 8118653198698896924, guid: 7d1bf127aac368f4ba6cb0c9ba70bd48,
+  m_DefaultSprite: {fileID: 21300000, guid: 387c33359e1c83048a0dc064dd899e6d, type: 3}
+  m_DefaultGameObject: {fileID: 3215119012376124596, guid: 263dc7ee5cc102148a95cc3587f80c2c,
     type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []
