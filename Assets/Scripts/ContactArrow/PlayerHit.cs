@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hit : ContactArrow
+public class PlayerHit : ContactArrow
 {
     private Player player;
 
