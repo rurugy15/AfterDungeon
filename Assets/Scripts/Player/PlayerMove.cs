@@ -20,9 +20,11 @@ public class PlayerMove : MonoBehaviour
     private bool isGrounded;            // Whether or not the player is grounded.
     private Rigidbody2D rb;
     private float terminalVelocity;
+    private float externalVelocity;
 
     private Vector3 velocity = Vector3.zero;
     public bool IsGrounded { get { return isGrounded; } }
+    public float ExternalVelocity { set { externalVelocity = value; } }
 
     private void Awake()
     {
@@ -122,8 +124,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void HorizontalVelocityControl(float targetV)
+    private void HorizontalVelocityControl(float inputV)
     {
+        float targetV = inputV + externalVelocity;
         float nowV = rb.velocity.x;
         float changedV = 0;
 
