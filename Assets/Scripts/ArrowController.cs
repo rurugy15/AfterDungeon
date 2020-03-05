@@ -11,7 +11,7 @@ public class ArrowController : MonoBehaviour
     private float speed;
     private bool isGoRight;
     private GameObject lodgingObject = null;
-    private bool isTherePlayer = true;
+    private bool isTherePlayer = false;
     public bool IsTherePlayer { get { return isTherePlayer; } }
     private Rigidbody2D rb2D;
 
