@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: Moving Platform
+  m_Name: Moving Platform_Left
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: 4ddce00e4ebfe6144a3dff33b160e796, type: 3}
-  m_DefaultGameObject: {fileID: 2733597940409565223, guid: f573170e4828a6d4e87179f25b09702c,
+  m_DefaultSprite: {fileID: 21300000, guid: 97135bb6ee7954d45be51c5b6f380944, type: 3}
+  m_DefaultGameObject: {fileID: 2733597940409565223, guid: 20567554e50342c4e81238705d5c8dfc,
     type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []

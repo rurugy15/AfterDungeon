@@ -9,7 +9,7 @@ public class ArrowController : MonoBehaviour
     [SerializeField] private float colliderRadius;
 
     private float speed;
-    private bool isGoRight;
+    [SerializeField] private bool isGoRight;
     private GameObject lodgingObject = null;
     private bool isTherePlayer = false;
     public bool IsTherePlayer { get { return isTherePlayer; } }

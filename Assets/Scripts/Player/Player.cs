@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public bool canControl;
 
     private PlayerMove mover;
-    private PlayerShoot shooter;
+    private ProjectileShooter shooter;
     private Animator animator;
 
     [SerializeField] private float runSpeed = 40f;
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         canControl = true;
 
         mover = GetComponent<PlayerMove>();
-        shooter = GetComponent<PlayerShoot>();
+        shooter = GetComponent<ProjectileShooter>();
         animator = GetComponent<Animator>();
 
         originPos = transform.position;

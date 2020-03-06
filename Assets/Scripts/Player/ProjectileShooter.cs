@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShoot : MonoBehaviour
+public class ProjectileShooter : MonoBehaviour
 {
     [SerializeField] private GameObject projectile;
-    [SerializeField] private float speed = 100f;
+    [SerializeField] private float speed = 50f;
     [SerializeField] private float delay = 0.5f;
     [SerializeField] private Vector2 shootPos;
 
     private bool canShoot = true;
-    private List<GameObject> arrows = new List<GameObject>();
+    private List<GameObject> myProjectiles = new List<GameObject>();
 
     public void Shoot(Vector2 shooterPos, bool isFacingRight)
     {
@@ -24,7 +24,7 @@ public class PlayerShoot : MonoBehaviour
         GameObject arrow = Instantiate(projectile, shooterPos + nowShootPos, Quaternion.identity);
         arrow.GetComponent<ArrowController>().Initiailize(speed, isFacingRight);
         
-        arrows.Add(arrow);
+        myProjectiles.Add(arrow);
     }
 
     private void OnDrawGizmos()
@@ -43,11 +43,11 @@ public class PlayerShoot : MonoBehaviour
 
     public void DestroyAllArrows()
     {
-        foreach (GameObject arrow in arrows)
+        foreach (GameObject arrow in myProjectiles)
         {
             Destroy(arrow);
         }
 
-        arrows = new List<GameObject>();
+        myProjectiles = new List<GameObject>();
     }
 }
