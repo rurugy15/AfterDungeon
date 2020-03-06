@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1536285887581022290}
   - component: {fileID: 3991446447991359365}
   m_Layer: 10
-  m_Name: Thorn Block
+  m_Name: Object_2.Thorn Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,7 +97,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
 --- !u!114 &3991446447991359365
 MonoBehaviour:
   m_ObjectHideFlags: 0
