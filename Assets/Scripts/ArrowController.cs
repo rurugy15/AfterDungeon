@@ -15,6 +15,8 @@ public class ArrowController : MonoBehaviour
     public bool IsTherePlayer { get { return isTherePlayer; } }
     private Rigidbody2D rb2D;
 
+    private float originY;
+
     public void Initiailize(float speed, bool isGoRight)
     {
         this.speed = speed;
@@ -23,6 +25,7 @@ public class ArrowController : MonoBehaviour
 
     private void Start()
     {
+        originY = transform.position.y;
         rb2D = GetComponent<Rigidbody2D>();
         if (isGoRight == true)
         {
