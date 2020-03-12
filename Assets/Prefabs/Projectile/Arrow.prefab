@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 3824778598410309142}
   - component: {fileID: 3762795434647944375}
   - component: {fileID: 5854755893838601790}
-  - component: {fileID: 751942041112989440}
   m_Layer: 12
   m_Name: Arrow
   m_TagString: Arrow
@@ -99,7 +98,7 @@ EdgeCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.02}
+  m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
   - {x: -1.9, y: 0}
@@ -135,7 +134,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -174,15 +173,3 @@ MonoBehaviour:
   rideLayer:
     serializedVersion: 2
     m_Bits: 256
---- !u!114 &751942041112989440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4677124846470903992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 875bb84ebdb883a46babb0c755c1cf34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
