@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderPos: {x: 0, y: 0}
-  colliderRadius: 0.1
+  colliderBox: {x: 0.2, y: 0.2}
   isGoRight: 1
 --- !u!114 &5854755893838601790
 MonoBehaviour:

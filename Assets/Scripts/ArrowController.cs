@@ -6,7 +6,7 @@ public class ArrowController : MonoBehaviour
 {
     [Header("Colliding Check")]
     [SerializeField] private Vector2 colliderPos;
-    [SerializeField] private float colliderRadius;
+    [SerializeField] private Vector2 colliderBox;
 
     private float speed;
     [SerializeField] private bool isGoRight;
@@ -52,7 +52,11 @@ public class ArrowController : MonoBehaviour
         Gizmos.color = Color.green;
 
         Vector2 drawPos = isGoRight ? colliderPos : colliderPos * new Vector2(-1, 1);
-        Gizmos.DrawWireSphere((Vector2)transform.position + drawPos, colliderRadius);
+
+        Vector2 boxCorner_LeftDown = (Vector2)transform.position + drawPos - colliderBox / 2;
+        Vector2 boxCorner_RightUp = boxCorner_LeftDown + new Vector2(Time.fixedDeltaTime * rb2D.velocity.x, colliderBox.y);
+
+        Gizmos.DrawLine(boxCorner_LeftDown, boxCorner_RightUp);
     }
 
     private void OnLodgingEnter(GameObject target)
@@ -74,15 +78,22 @@ public class ArrowController : MonoBehaviour
     {
         Vector2 checkPos = isGoRight ? colliderPos : colliderPos * new Vector2(-1, 1);
 
-        Collider2D[] colls = Physics2D.OverlapCircleAll((Vector2)transform.position + checkPos, colliderRadius);
+        Vector2 boxCorner_LeftDown = (Vector2)transform.position + checkPos - colliderBox / 2;
+        Vector2 boxCorner_RightUp = boxCorner_LeftDown + new Vector2(Time.fixedDeltaTime * rb2D.velocity.x, colliderBox.y);
+        Collider2D[] colls = Physics2D.OverlapAreaAll(boxCorner_LeftDown, boxCorner_RightUp);
+        //Collider2D[] colls = Physics2D.OverlapBoxAll((Vector2)transform.position + checkPos, colliderBox, 0);
+
         GameObject target = null;
 
-        foreach (Collider2D coll in colls)
+        for (int i = 0; i < colls.Length; i++)
         {
-            if (coll.gameObject == gameObject) continue;
-            if (!coll.GetComponent<ContactArrow>()) continue;
-
-            target = coll.gameObject;
+            if (!colls[i].GetComponent<ContactArrow>()) continue;
+            if (target == null) target = colls[i].gameObject;
+            else
+            {
+                if (isGoRight && target.transform.position.x > colls[i].transform.position.x) target = colls[i].gameObject;
+                if(!isGoRight && target.transform.position.x < colls[i].transform.position.x) target = colls[i].gameObject;
+            }
         }
 
         if (lodgingObject == null)
