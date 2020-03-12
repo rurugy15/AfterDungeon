@@ -122,6 +122,6 @@ public class Player : MonoBehaviour
 
     private void Restart()
     {
-        shooter.DestroyAllArrows();
+        ArrowManager.instance.DeactivateAllArrow();
     }
 }

@@ -12,6 +12,6 @@ public class SelfDestruction : MonoBehaviour
 
     private void Update()
     {
-        if (y - transform.position.y > 50f) Destroy(gameObject);
+        if (y - transform.position.y > 50f) gameObject.SetActive(false);
     }
 }

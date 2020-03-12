@@ -7,7 +7,6 @@ public class MechArrow : MonoBehaviour
     [SerializeField] private bool isFacingRight;
     [SerializeField] private float arrowSpeed;
     [SerializeField] private float shootDelay;
-    [SerializeField] private GameObject arrowPrefab;
 
     private void Start()
     {
@@ -26,7 +25,6 @@ public class MechArrow : MonoBehaviour
     private void Shot()
     {
         Vector2 shotPos = transform.position;
-        GameObject arrow = Instantiate(arrowPrefab, shotPos, Quaternion.identity);
-        arrow.GetComponent<ArrowController>().Initiailize(arrowSpeed, isFacingRight);
+        ArrowManager.instance.Shoot(shotPos, arrowSpeed, isFacingRight);
     }
 }

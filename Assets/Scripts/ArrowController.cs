@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class ArrowController : MonoBehaviour
 {
+    [SerializeField] private bool collidingCheck;
+
     [Header("Colliding Check")]
     [SerializeField] private Vector2 colliderPos;
-    [SerializeField] private float colliderRadius;
+    [SerializeField] private Vector2 colliderBox;
 
     private float speed;
     [SerializeField] private bool isGoRight;
@@ -15,18 +17,20 @@ public class ArrowController : MonoBehaviour
     public bool IsTherePlayer { get { return isTherePlayer; } }
     private Rigidbody2D rb2D;
 
-    private float originY;
-
-    public void Initiailize(float speed, bool isGoRight)
+    public void Initiailize(Vector2 shootPos, float speed, bool isGoRight)
     {
+        rb2D = GetComponent<Rigidbody2D>();
+        collidingCheck = true;
+        transform.position = shootPos;
         this.speed = speed;
         this.isGoRight = isGoRight;
+
+        ComponentInitialize();
+        TransformInitailize();
     }
 
-    private void Start()
+    private void TransformInitailize()
     {
-        originY = transform.position.y;
-        rb2D = GetComponent<Rigidbody2D>();
         if (isGoRight == true)
         {
             rb2D.velocity = new Vector2(speed, 0);
@@ -39,12 +43,22 @@ public class ArrowController : MonoBehaviour
         }
     }
 
+    private void ComponentInitialize()
+    {
+        gameObject.SetActive(true);
+        enabled = true;
+        GetComponent<EdgeCollider2D>().enabled = true;
+        GetComponent<EdgeCollider2D>().isTrigger = true;
+        rb2D.bodyType = RigidbodyType2D.Dynamic;
+        rb2D.gravityScale = 0f;
+    }
+
     private void FixedUpdate()
     {
         if (Mathf.Abs(transform.position.x) > 50f)
-            Destroy(gameObject);
+            gameObject.SetActive(false);
 
-        CheckColliding();
+        if(collidingCheck) CheckColliding();
     }
 
     private void OnDrawGizmos()
@@ -52,7 +66,11 @@ public class ArrowController : MonoBehaviour
         Gizmos.color = Color.green;
 
         Vector2 drawPos = isGoRight ? colliderPos : colliderPos * new Vector2(-1, 1);
-        Gizmos.DrawWireSphere((Vector2)transform.position + drawPos, colliderRadius);
+
+        Vector2 boxCorner_LeftDown = (Vector2)transform.position + drawPos - colliderBox / 2;
+        Vector2 boxCorner_RightUp = boxCorner_LeftDown + new Vector2(Time.fixedDeltaTime * rb2D.velocity.x, colliderBox.y);
+
+        Gizmos.DrawLine(boxCorner_LeftDown, boxCorner_RightUp);
     }
 
     private void OnLodgingEnter(GameObject target)
@@ -74,15 +92,21 @@ public class ArrowController : MonoBehaviour
     {
         Vector2 checkPos = isGoRight ? colliderPos : colliderPos * new Vector2(-1, 1);
 
-        Collider2D[] colls = Physics2D.OverlapCircleAll((Vector2)transform.position + checkPos, colliderRadius);
+        Vector2 boxCorner_LeftDown = (Vector2)transform.position + checkPos - colliderBox / 2;
+        Vector2 boxCorner_RightUp = boxCorner_LeftDown + new Vector2(Time.fixedDeltaTime * rb2D.velocity.x, colliderBox.y);
+        Collider2D[] colls = Physics2D.OverlapAreaAll(boxCorner_LeftDown, boxCorner_RightUp);
+
         GameObject target = null;
 
-        foreach (Collider2D coll in colls)
+        for (int i = 0; i < colls.Length; i++)
         {
-            if (coll.gameObject == gameObject) continue;
-            if (!coll.GetComponent<ContactArrow>()) continue;
-
-            target = coll.gameObject;
+            if (!colls[i].GetComponent<ContactArrow>()) continue;
+            if (target == null) target = colls[i].gameObject;
+            else
+            {
+                if (isGoRight && target.transform.position.x > colls[i].transform.position.x) target = colls[i].gameObject;
+                if(!isGoRight && target.transform.position.x < colls[i].transform.position.x) target = colls[i].gameObject;
+            }
         }
 
         if (lodgingObject == null)
@@ -113,5 +137,26 @@ public class ArrowController : MonoBehaviour
         {
             isTherePlayer = false;
         }
+    }
+
+    public void Disable()
+    {
+        rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+        rb2D.bodyType = RigidbodyType2D.Dynamic;
+        rb2D.gravityScale = 3f;
+        collidingCheck = false;
+
+        GetComponent<Collider2D>().enabled = false;
+
+        StartCoroutine(Disappear());
+    }
+
+    private IEnumerator Disappear()
+    {
+        if (!gameObject.activeInHierarchy) yield break;
+
+        yield return new WaitForSeconds(2f);
+
+        gameObject.SetActive(false);
     }
 }
