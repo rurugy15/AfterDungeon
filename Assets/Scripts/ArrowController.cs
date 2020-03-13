@@ -12,7 +12,7 @@ public class ArrowController : MonoBehaviour
 
     private float speed;
     [SerializeField] private bool isGoRight;
-    private GameObject lodgingObject = null;
+     private GameObject lodgingObject;
     private bool isTherePlayer = false;
     public bool IsTherePlayer { get { return isTherePlayer; } }
     private Rigidbody2D rb2D;
@@ -22,6 +22,8 @@ public class ArrowController : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         collidingCheck = true;
         transform.position = shootPos;
+        transform.parent = null;
+        lodgingObject = null;
         this.speed = speed;
         this.isGoRight = isGoRight;
 

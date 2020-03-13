@@ -39,7 +39,6 @@ public class ArrowManager : MonoBehaviour
     {
         foreach (GameObject arrow in arrows)
         {
-            arrow.transform.parent = null;
             arrow.SetActive(false);
         }
     }

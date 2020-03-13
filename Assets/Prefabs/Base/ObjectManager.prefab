@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6858852947681544468}
   - component: {fileID: 6858852947681544471}
+  - component: {fileID: 2159110116506890421}
   m_Layer: 0
-  m_Name: ArrowManager
+  m_Name: ObjectManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,3 +46,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 4677124846470903992, guid: 25a8dac3af0355d45ad9bc29e4b85973,
     type: 3}
+--- !u!114 &2159110116506890421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6858852947681544469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b35ad505dc0e4e449861817b26d8d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
