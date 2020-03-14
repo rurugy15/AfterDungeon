@@ -23407,4 +23407,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c01c272239b80b42a3019f6af05101d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exit: {fileID: 0}
+  exit: {fileID: 7672957168795698995}
+--- !u!4 &7672957168795698995 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6758342803624697649, guid: adc5473316424264cb0813bc31fb2dd7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7672957168795698989}
+  m_PrefabAsset: {fileID: 0}
