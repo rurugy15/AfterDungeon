@@ -33,9 +33,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform groundChecker;
 
     [Header("Fire Movement")]
-    [SerializeField] private GameObject projectile;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private float maxDistance;
     [SerializeField] private float fireVelocity;
     [SerializeField] private Vector2 fireJumpVelocity;
+    [SerializeField] private Vector2 projJumpVelocity;
 
     public enum WallState { None, Slide}
     [Header("Wall Movement")]
@@ -192,6 +194,7 @@ public class PlayerMovement : MonoBehaviour
         GrabWall(horizontal);
         HorizontalMove(horizontal);
         if (AllowToJump()) JumpingMovement(horizontal);
+        if (fire) Fire(horizontal);
 
         animator.SetFloat("Jump Speed", rb2D.velocity.y);
     }
@@ -207,6 +210,18 @@ public class PlayerMovement : MonoBehaviour
         else if (!isGrounded && closestWall.HasValue) WallJump();
 
         lastJumpInputTime = -999f;
+    }
+
+    private void Fire(float horizontal)
+    {
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        projectile.GetComponent<ProjectileController>().Initialize(IsFacingRight, fireVelocity, maxDistance);
+
+        float x = fireJumpVelocity.x;
+        float y = fireJumpVelocity.y;
+        if (horizontal > 0) ApplyJumpVelocity(x, y);
+        else if (horizontal < 0) ApplyJumpVelocity(-x, y);
+        else ApplyJumpVelocity(0, y);
     }
 
     private void Jump(float horizontal)
@@ -287,7 +302,7 @@ public class PlayerMovement : MonoBehaviour
         rb2D.velocity = new Vector2(nowV, rb2D.velocity.y);
     }
 
-    public void ApplyJumpVelocity(float x, float y, float duration = 0f)
+    private void ApplyJumpVelocity(float x, float y, float duration = 0f)
     {
         rb2D.velocity = new Vector2(x, y);
         Flip(x);
@@ -323,6 +338,14 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Wall", false);
             animator.SetBool("Wall Jump Ready", false);
         }
+    }
+
+    public void ProjectileJump()
+    {
+        float x = projJumpVelocity.x;
+        float y = projJumpVelocity.y;
+        if (IsFacingRight) ApplyJumpVelocity(x, y);
+        else ApplyJumpVelocity(-x, y);
     }
 
     private float Stamina
