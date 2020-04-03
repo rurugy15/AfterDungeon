@@ -8,6 +8,8 @@ public class CameraController : MonoBehaviour
     public float moveTime = 0.1f;
     float inverseMoveTime ;
 
+    private bool isCameraMoving = false;
+
     public CameraType startType; // 게임 시작때 카메라 정보, 사용하지 않을 수도 있음
     public Vector3 startPosition;
 
@@ -26,13 +28,14 @@ public class CameraController : MonoBehaviour
     float x;
     float y; // player의 위치 저장용 변수
 
+
     CameraRegion curRegion;
 
     private Vector3 offset; // 카메라 이동시 offset
 
     void Start()
     {
-
+        regionNum = WhichRegion();
         inverseMoveTime = 1f / moveTime;
         x = player.transform.position.x;
         y = player.transform.position.y;
@@ -41,54 +44,59 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        Debug.Log(offset);
-        x = player.transform.position.x;
-        y = player.transform.position.y;
-        int num = WhichRegion();
-        Debug.Log(num);
-        Debug.Log(curRegion.transform.position);
-        Debug.Log("Min: " + curRegion.MinPoint);
-        Debug.Log(curRegion.Min);
-        Debug.Log("Down: " + curDown);
-        if ((x >= curLeft) && (x < curRight) && (y >= curDown) && (y < curUp))
+        if (isCameraMoving == false)
         {
-            Debug.Log("here!");
-            if (curRegion.cameratype == CameraType.XFreeze)
+            //Debug.Log(offset);
+            x = player.transform.position.x;
+            y = player.transform.position.y;
+            int num;
+            //Debug.Log(curRegion.transform.position);
+            //Debug.Log("Min: " + curRegion.MinPoint);
+            //Debug.Log(curRegion.Min);
+            // Debug.Log("Down: " + curDown);
+            if ((x >= curLeft) && (x < curRight) && (y >= curDown) && (y < curUp))
             {
-                Vector3 next = offset + new Vector3(camera.transform.position.x,y,-10f);
-                if (next.y < curRegion.Min)
-                    next.y = curRegion.Min;
-                else if (next.y > curRegion.Max)
-                    next.y = curRegion.Max;
+                // Debug.Log("here!");
+                if (curRegion.cameratype == CameraType.XFreeze)
+                {
+                    Vector3 next = offset + new Vector3(camera.transform.position.x, y, -10f);
+                    if (next.y < curRegion.Min)
+                        next.y = curRegion.Min;
+                    else if (next.y > curRegion.Max)
+                        next.y = curRegion.Max;
 
-                camera.transform.position = next;
-            }
-            else if (curRegion.cameratype == CameraType.YFreeze)
-            {
-                Vector3 next = offset + new Vector3(x,camera.transform.position.y, -10f);
-                if (next.x < curRegion.Min)
-                    next.x = curRegion.Min;
-                else if (next.x > curRegion.Max)
-                    next.x = curRegion.Max;
+                    camera.transform.position = next;
+                }
+                else if (curRegion.cameratype == CameraType.YFreeze)
+                {
+                    Vector3 next = offset + new Vector3(x, camera.transform.position.y, -10f);
+                    if (next.x < curRegion.Min)
+                        next.x = curRegion.Min;
+                    else if (next.x > curRegion.Max)
+                        next.x = curRegion.Max;
 
-                camera.transform.position = next;
+                    camera.transform.position = next;
+                }
             }
-        }
-        else if(num != transform.childCount)
-        {          
-            if(curRegion.cameratype==CameraType.Center)
+            else if ((num = WhichRegion()) != transform.childCount)
             {
-                StartCoroutine(Move(curRegion.Center));
-            }
-            else if((curRegion.MinPoint-player.transform.position).magnitude< (curRegion.MaxPoint - player.transform.position).magnitude)
-            {
-                SetMinOffset();
-                StartCoroutine(Move(curRegion.MinPoint+new Vector3(0f,0f,-10f)));
-            }
-            else
-            {
-                SetMaxOffset();
-                StartCoroutine(Move(curRegion.MaxPoint + new Vector3(0f, 0f, -10f)));
+                Debug.Log("region changed");
+                if (curRegion.cameratype == CameraType.Center)
+                {
+                    Debug.Log("center of region: " + curRegion.Center + new Vector3(0f, 0f, -10f));
+                    StartCoroutine(Move(curRegion.Center + new Vector3(0f, 0f, -10f)));
+                }
+                else if ((curRegion.MinPoint - player.transform.position).magnitude < (curRegion.MaxPoint - player.transform.position).magnitude)
+                {
+                    Debug.Log(curRegion.MinPoint + new Vector3(0f, 0f, -10f));
+                    SetMinOffset();
+                    StartCoroutine(Move(curRegion.MinPoint + new Vector3(0f, 0f, -10f)));
+                }
+                else
+                {
+                    SetMaxOffset();
+                    StartCoroutine(Move(curRegion.MaxPoint + new Vector3(0f, 0f, -10f)));
+                }
             }
         }
     }
@@ -146,14 +154,19 @@ public class CameraController : MonoBehaviour
     }
     IEnumerator Move(Vector3 end)
     {
+        isCameraMoving = true;
         float sqrRemainingDistance = (camera.transform.position - end).sqrMagnitude;
         while (sqrRemainingDistance > float.Epsilon)
         {
             Vector3 newPosition = Vector3.MoveTowards(camera.transform.position, end, inverseMoveTime * Time.deltaTime);
             camera.transform.position = newPosition;
             sqrRemainingDistance = (camera.transform.position - end).sqrMagnitude;
+            //Debug.Log(camera.transform.position);
+           // Debug.Log(end);
+            //Debug.Log("Move!");
             yield return null;
         }
+        isCameraMoving = false;
     }
 }
 

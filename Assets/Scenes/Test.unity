@@ -2565,6 +2565,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4773227671510213199, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: cameratype
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773227671510213555, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773227671510213555, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6418143628862436332, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6418143628862436332, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6418143628862436332, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6418143628862436332, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6418143628862436332, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6418143628875009308, guid: 5509529f45f127f4c964865aa0bf92af,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2635,5 +2675,20 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 530811743}
+    - target: {fileID: 6418143628875009311, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: moveTime
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6418143629803702258, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6418143630027075153, guid: 5509529f45f127f4c964865aa0bf92af,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5509529f45f127f4c964865aa0bf92af, type: 3}
