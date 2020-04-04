@@ -406,4 +406,9 @@ public class PlayerMovement : MonoBehaviour
 
         airAccel = originAirAccel;
     }
+
+    public void DashRefill()
+    {
+        isDashed = false;
+    }
 }
