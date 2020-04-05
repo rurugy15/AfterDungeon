@@ -5,6 +5,7 @@ using UnityEngine;
 public class ProjectileController : MonoBehaviour
 {
     private Rigidbody2D rb2D;
+    private BoxCollider2D bc2D;
     private bool isGoingRight;
     private float speed;
 
@@ -12,10 +13,16 @@ public class ProjectileController : MonoBehaviour
     private bool isFlying;
     private float endX;
 
-    public void Initialize(bool isGoingRight, float speed, float distance)
+    private float elaspedtime;
+    private PlayerMovement player;
+
+    public void Initialize(bool isGoingRight, float speed, float distance, PlayerMovement person)
     {
         this.isGoingRight = isGoingRight;
         this.speed = speed;
+        this.player = person;
+
+        elaspedtime = 0f;
 
         isPlayerThere = true;
         isFlying = true;
@@ -25,7 +32,7 @@ public class ProjectileController : MonoBehaviour
     private void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
-
+        bc2D = GetComponent<BoxCollider2D>();
         rb2D.velocity = isGoingRight ? new Vector2(speed, 0) : new Vector2(-speed, 0);
     }
 
@@ -33,6 +40,12 @@ public class ProjectileController : MonoBehaviour
     {
         if (isFlying == false)
         {
+            elaspedtime += Time.deltaTime;
+            if (elaspedtime > 1.5f)
+            {
+                player.FireEnd();
+                Destroy(gameObject);
+            }
             rb2D.velocity = Vector2.zero;
             rb2D.bodyType = RigidbodyType2D.Static;
 
@@ -62,6 +75,10 @@ public class ProjectileController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        else// 추가된 부분
+        {
+            isFlying = false;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D coll)
@@ -69,6 +86,25 @@ public class ProjectileController : MonoBehaviour
         if (coll.tag == "Player")
         {
             if (isPlayerThere) isPlayerThere = false;
+            bc2D.isTrigger = false; // 추가된 부분
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)//추가된 부분
+    {
+        isFlying = false;
+        if (collision.collider.tag == "Player")
+        {
+            if (!isPlayerThere)
+            {
+                collision.collider.gameObject.GetComponent<PlayerMovement>().ProjectileJump();
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        player.FireEnd();
     }
 }
