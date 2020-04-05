@@ -240,6 +240,7 @@ MonoBehaviour:
   isGrounded: 0
   isJumping: 0
   isDashed: 0
+  isFired: 0
   wallState: 0
   groundAccel: 200
   airAccel: 100
@@ -251,6 +252,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   groundChecker: {fileID: 1431117934}
+  projectileChecker: {fileID: 0}
   projectilePrefab: {fileID: 2480807860061347004, guid: 65eb601f96614e34bbffcb36f1fec34a,
     type: 3}
   maxDistance: 6
