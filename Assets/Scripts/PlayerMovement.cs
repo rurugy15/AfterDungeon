@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isDashed;
+    [SerializeField] private bool isFired;
     [SerializeField] private WallState wallState;
 
     [Header("Basic Movement")]
@@ -33,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform groundChecker;
 
     [Header("Fire Movement")]
+    [SerializeField] private Transform projectileChecker;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float maxDistance;
     [SerializeField] private float fireVelocity;
@@ -105,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         
         rb2D.gravityScale = originGravity;
+        isFired = false;
     }
 
     private void FixedUpdate()
@@ -214,14 +217,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Fire(float horizontal)
     {
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        projectile.GetComponent<ProjectileController>().Initialize(IsFacingRight, fireVelocity, maxDistance);
+        if (isFired == false)
+        {
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            projectile.GetComponent<ProjectileController>().Initialize(IsFacingRight, fireVelocity, maxDistance,this);
+            isFired = true;
 
-        float x = fireJumpVelocity.x;
-        float y = fireJumpVelocity.y;
-        if (horizontal > 0) ApplyJumpVelocity(x, y);
-        else if (horizontal < 0) ApplyJumpVelocity(-x, y);
-        else ApplyJumpVelocity(0, y);
+            if (isGrounded == false)
+            {
+                float x = fireJumpVelocity.x;
+                float y = fireJumpVelocity.y;
+                if (horizontal > 0) ApplyJumpVelocity(x, y);
+                else if (horizontal < 0) ApplyJumpVelocity(-x, y);
+                else ApplyJumpVelocity(0, y);
+            }
+        }
     }
 
     private void Jump(float horizontal)
@@ -410,5 +420,10 @@ public class PlayerMovement : MonoBehaviour
     public void DashRefill()
     {
         isDashed = false;
+    }
+    
+    public void FireEnd()
+    {
+        isFired = false;
     }
 }

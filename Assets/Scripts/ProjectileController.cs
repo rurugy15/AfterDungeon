@@ -14,11 +14,13 @@ public class ProjectileController : MonoBehaviour
     private float endX;
 
     private float elaspedtime;
+    private PlayerMovement player;
 
-    public void Initialize(bool isGoingRight, float speed, float distance)
+    public void Initialize(bool isGoingRight, float speed, float distance, PlayerMovement person)
     {
         this.isGoingRight = isGoingRight;
         this.speed = speed;
+        this.player = person;
 
         elaspedtime = 0f;
 
@@ -40,10 +42,10 @@ public class ProjectileController : MonoBehaviour
         {
             elaspedtime += Time.deltaTime;
             if (elaspedtime > 1.5f)
+            {
+                player.FireEnd();
                 Destroy(gameObject);
-        }
-        if (isFlying == false)
-        {
+            }
             rb2D.velocity = Vector2.zero;
             rb2D.bodyType = RigidbodyType2D.Static;
 
@@ -99,5 +101,10 @@ public class ProjectileController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        player.FireEnd();
     }
 }

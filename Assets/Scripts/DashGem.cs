@@ -27,6 +27,7 @@ public class DashGem : MonoBehaviour
             elapsedTime += Time.deltaTime;
             if(elapsedTime>10f)
             {
+                elapsedTime = 0;
                 isActivated = true;
                 spr.sprite = activated;
             }
@@ -38,6 +39,7 @@ public class DashGem : MonoBehaviour
         {
             if (collision.tag == "Player")
             {
+                Debug.Log("player used");
                 collision.GetComponent<PlayerMovement>().DashRefill();
                 isActivated = false;
                 spr.sprite = deActivated;
