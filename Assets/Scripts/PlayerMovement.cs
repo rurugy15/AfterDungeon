@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isJumping;
     [SerializeField] private bool isDashed;
     [SerializeField] private bool isFired;
+    private bool isDashing;
     [SerializeField] private WallState wallState;
 
     [Header("Basic Movement")]
@@ -44,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float shortFireTime;
     [Tooltip("발사 버튼 누른 시간이 길었을 때 화살 존재 시간")]
     [SerializeField] private float longFireTime;
+    private ProjectileController projectile;
 
     public enum WallState { None, Slide}
     [Header("Wall Movement")]
@@ -122,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
         
         rb2D.gravityScale = originGravity;
         isFired = false;
+        isDashing = false;
     }
 
     private void FixedUpdate()
@@ -216,23 +219,15 @@ public class PlayerMovement : MonoBehaviour
         return originGravity;
     }
 
-    public void Move(float horizontal, bool jump, bool fire, float pressTime)
+    public void Move(float horizontal, bool jump, bool dash, bool fire)
     {
-        float existTime;
-        if(pressTime<=1.0f)
-        {
-            existTime = shortFireTime;
-        }
-        else
-        {
-            existTime = longFireTime;
-        }
         if (jump) lastJumpInputTime = Time.time;
 
         GrabWall(horizontal);
         HorizontalMove(horizontal);
         if (AllowToJump()) JumpingMovement(horizontal);
-        if (fire) Fire(horizontal, existTime);
+        if (dash) Dash(horizontal);
+        if (fire) Fire(horizontal);
 
         animator.SetFloat("Jump Speed", rb2D.velocity.y);
     }
@@ -250,13 +245,14 @@ public class PlayerMovement : MonoBehaviour
         lastJumpInputTime = -999f;
     }
 
-    private void Fire(float horizontal, float existTime)
+    private void Fire(float horizontal)
     {
         if (isFired == false&&FireChecking())
         {
             GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-            projectile.GetComponent<ProjectileController>().Initialize(IsFacingRight, fireVelocity, maxDistance,this, existTime);
+            projectile.GetComponent<ProjectileController>().Initialize(IsFacingRight, fireVelocity, maxDistance,this);
             isFired = true;
+            this.projectile = projectile.GetComponent<ProjectileController>();
 
             if (isGrounded == false)
             {
@@ -268,27 +264,38 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-    private void Jump(float horizontal)
+    
+    private void Dash(float horizontal)
     {
         #region Dash
-        if (isDashed == false && isGrounded == false)
+        if ((isDashed == false) && (isDashing == false)/* && isGrounded == false*/)
         {
             isDashed = true;
-
+            
             StartCoroutine(GravityControl(0, dashingTime));
 
             float x = dashVelocity.x;
             //float y = dashVelocity.y;
             if (IsFacingRight) ApplyJumpVelocity(x, 0, dashingTime);
             else ApplyJumpVelocity(-x, 0, dashingTime);
-
+            StartCoroutine(EndDash());
             Debug.Log("Stumping : " + rb2D.velocity);
         }
         #endregion
+    }
+    private IEnumerator EndDash()
+    {
+        yield return new WaitForSeconds(dashingTime);
+        isDashing = false;
+        if (isGrounded)
+            isDashed = false;
+    }
+
+    private void Jump(float horizontal)
+    {
 
         #region Normal Jump
-        else if(isGrounded)
+        if(isGrounded)
         {
             float x = jumpVelocity.x;
             float y = jumpVelocity.y;
@@ -450,6 +457,17 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.16f);
 
         airAccel = originAirAccel;
+    }
+    public void SetProjectileTime(float pressedTime)
+    {
+        if(pressedTime<=1.0f)
+        {
+            projectile.SetLimit(shortFireTime);
+        }
+        else
+        {
+            projectile.SetLimit(longFireTime);
+        }
     }
 
     public void DashRefill()
