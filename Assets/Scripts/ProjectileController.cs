@@ -15,9 +15,11 @@ public class ProjectileController : MonoBehaviour
 
     private float elaspedtime;
     private PlayerMovement player;
+    private float limitTIme = 999f;
 
-    public void Initialize(bool isGoingRight, float speed, float distance, PlayerMovement person)
+    public void Initialize(bool isGoingRight, float speed, float distance, PlayerMovement person, float existTime)
     {
+        this.limitTIme = existTime;
         this.isGoingRight = isGoingRight;
         this.speed = speed;
         this.player = person;
@@ -41,7 +43,7 @@ public class ProjectileController : MonoBehaviour
         if (isFlying == false)
         {
             elaspedtime += Time.deltaTime;
-            if (elaspedtime > 1.5f)
+            if (elaspedtime > limitTIme)
             {
                 player.FireEnd();
                 Destroy(gameObject);
@@ -67,17 +69,18 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.tag == "Player")
+        if (coll.tag != "Player")// 추가된 부분
+        {
+            isFlying = false;
+        }
+        else if(coll.tag == "Player")
         {
             if (!isPlayerThere)
             {
                 coll.gameObject.GetComponent<PlayerMovement>().ProjectileJump();
                 Destroy(gameObject);
             }
-        }
-        else// 추가된 부분
-        {
-            isFlying = false;
+            
         }
     }
 
