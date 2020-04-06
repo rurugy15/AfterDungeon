@@ -12,11 +12,16 @@ public class Player : MonoBehaviour
     private float horizontal = 0;
     private bool jump = false;
     private bool fire = false;
+    private bool fireUp = false;
+
+    private float fireButtonTime = 0f;
 
     private Vector2 originPos;
 
+
     private void Awake()
     {
+        fireButtonTime = 0f;
         mover = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
     }
@@ -32,10 +37,18 @@ public class Player : MonoBehaviour
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             jump = Input.GetButtonDown("Jump");
-            fire = Input.GetButtonDown("Fire");
-        }        
-
-        mover.Move(horizontal, jump, fire);
+            fire = Input.GetButton("Fire");
+            fireUp = Input.GetButtonUp("Fire");
+            if (fire)
+            {
+                fireButtonTime += Time.deltaTime;
+            }
+        }
+        mover.Move(horizontal, jump, fireUp, fireButtonTime);
+        if (fireUp)
+        {
+            fireButtonTime = 0f;
+        }
         animator.SetFloat("Speed", Mathf.Abs(horizontal));
 
         jump = false;

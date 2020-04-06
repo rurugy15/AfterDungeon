@@ -34,12 +34,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform groundChecker;
 
     [Header("Fire Movement")]
-    [SerializeField] private Transform projectileChecker;
+    [SerializeField] private Transform fireChecker;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float maxDistance;
     [SerializeField] private float fireVelocity;
     [SerializeField] private Vector2 fireJumpVelocity;
     [SerializeField] private Vector2 projJumpVelocity;
+    [Tooltip("발사 버튼 누른 시간이 짧았을 때 화살 존재 시간")]
+    [SerializeField] private float shortFireTime;
+    [Tooltip("발사 버튼 누른 시간이 길었을 때 화살 존재 시간")]
+    [SerializeField] private float longFireTime;
 
     public enum WallState { None, Slide}
     [Header("Wall Movement")]
@@ -70,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 groundBox = new Vector2(0.7f, 0.2f);
     private Vector2 wallBox = new Vector2(0.2f, 0.7f);
+    private Vector2 fireBox = new Vector3(2f,0.15f);
     private Rigidbody2D rb2D;
     private Animator animator;
 
@@ -100,6 +105,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public Vector2 FireCheckPos
+    {
+        get
+        {
+            if (isFacingRight) return transform.position + fireChecker.localPosition;
+            else return transform.position - fireChecker.localPosition;
+        }
+    }
+
 
     private void Awake()
     {
@@ -124,6 +138,9 @@ public class PlayerMovement : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(wallChecker.position, wallBox);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(fireChecker.position, fireBox);
     }
 
     private bool GroundChecking()
@@ -176,6 +193,15 @@ public class PlayerMovement : MonoBehaviour
         else return null;
     }
 
+    private bool FireChecking()
+    {
+        Collider2D[] colls = Physics2D.OverlapBoxAll(FireCheckPos, fireBox, 0, whatIsWall);
+        if (colls.Length != 0)
+            return false;
+        else
+            return true;
+    }
+
     private void GroundingEvent()
     {
         animator.SetBool("IsGrounded", true);
@@ -190,14 +216,23 @@ public class PlayerMovement : MonoBehaviour
         return originGravity;
     }
 
-    public void Move(float horizontal, bool jump, bool fire)
+    public void Move(float horizontal, bool jump, bool fire, float pressTime)
     {
+        float existTime;
+        if(pressTime<=1.0f)
+        {
+            existTime = shortFireTime;
+        }
+        else
+        {
+            existTime = longFireTime;
+        }
         if (jump) lastJumpInputTime = Time.time;
 
         GrabWall(horizontal);
         HorizontalMove(horizontal);
         if (AllowToJump()) JumpingMovement(horizontal);
-        if (fire) Fire(horizontal);
+        if (fire) Fire(horizontal, existTime);
 
         animator.SetFloat("Jump Speed", rb2D.velocity.y);
     }
@@ -215,12 +250,12 @@ public class PlayerMovement : MonoBehaviour
         lastJumpInputTime = -999f;
     }
 
-    private void Fire(float horizontal)
+    private void Fire(float horizontal, float existTime)
     {
-        if (isFired == false)
+        if (isFired == false&&FireChecking())
         {
             GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-            projectile.GetComponent<ProjectileController>().Initialize(IsFacingRight, fireVelocity, maxDistance,this);
+            projectile.GetComponent<ProjectileController>().Initialize(IsFacingRight, fireVelocity, maxDistance,this, existTime);
             isFired = true;
 
             if (isGrounded == false)
