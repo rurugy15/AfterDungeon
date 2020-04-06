@@ -15,11 +15,10 @@ public class ProjectileController : MonoBehaviour
 
     private float elaspedtime;
     private PlayerMovement player;
-    private float limitTIme = 999f;
+    public float limitTime = 999f;
 
-    public void Initialize(bool isGoingRight, float speed, float distance, PlayerMovement person, float existTime)
+    public void Initialize(bool isGoingRight, float speed, float distance, PlayerMovement person)
     {
-        this.limitTIme = existTime;
         this.isGoingRight = isGoingRight;
         this.speed = speed;
         this.player = person;
@@ -43,7 +42,7 @@ public class ProjectileController : MonoBehaviour
         if (isFlying == false)
         {
             elaspedtime += Time.deltaTime;
-            if (elaspedtime > limitTIme)
+            if (elaspedtime > limitTime)
             {
                 player.FireEnd();
                 Destroy(gameObject);
@@ -109,5 +108,10 @@ public class ProjectileController : MonoBehaviour
     private void OnDestroy()
     {
         player.FireEnd();
+    }
+
+    public void SetLimit(float time)
+    {
+        limitTime = time;
     }
 }
