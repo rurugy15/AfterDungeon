@@ -276,16 +276,37 @@ public class PlayerMovement : MonoBehaviour
 
             float x = dashVelocity.x;
             //float y = dashVelocity.y;
-            if (IsFacingRight) ApplyJumpVelocity(x, 0, dashingTime);
-            else ApplyJumpVelocity(-x, 0, dashingTime);
-            StartCoroutine(EndDash());
+            if (IsFacingRight) StartCoroutine(DashMove(x, 0, dashingTime));
+            else StartCoroutine(DashMove(-x, 0, dashingTime));
+            //StartCoroutine(EndDash());
             Debug.Log("Stumping : " + rb2D.velocity);
         }
         #endregion
     }
-    private IEnumerator EndDash()
+    private IEnumerator DashMove(float x, float y, float dashingTime)
     {
-        yield return new WaitForSeconds(dashingTime);
+        float startTime = Time.time;
+        while(Time.time-startTime<dashingTime)
+        {
+            float elapsed = Time.time - startTime;
+            if(elapsed<dashingTime/4)
+            {
+                rb2D.velocity = new Vector2(elapsed*x*4/dashingTime, y);
+                Flip(x);
+            }
+            else if(dashingTime/4<=elapsed && elapsed<dashingTime*3/4)
+            {
+                rb2D.velocity = new Vector2(x, y);
+                Flip(x);
+            }
+            else
+            {
+                rb2D.velocity = new Vector2((-1)*elapsed * x * 4 / dashingTime+4*x, y);
+                Flip(x);
+            }
+            yield return null;
+        }
+        
         isDashing = false;
         if (isGrounded)
             isDashed = false;
