@@ -112,36 +112,15 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
-          <e p="ArrowController.cs" t="Include" />
-          <e p="ArrowManager.cs" t="Include" />
-          <e p="Boss" t="Include">
-            <e p="Boss.cs" t="Include" />
-            <e p="FireController.cs" t="Include" />
+          <e p="CameraControl" t="Include">
+            <e p="CameraController.cs" t="Include" />
+            <e p="CameraRegion.cs" t="Include" />
           </e>
-          <e p="BossController.cs" t="Include" />
-          <e p="CameraController.cs" t="Include" />
-          <e p="ContactArrow" t="Include">
-            <e p="ContactArrow.cs" t="Include" />
-            <e p="Lever.cs" t="Include" />
-            <e p="LeverPlatform.cs" t="Include" />
-            <e p="LodgingPlatform.cs" t="Include" />
-            <e p="Rail.cs" t="Include" />
-            <e p="UnlodgingPlatform.cs" t="Include" />
-          </e>
-          <e p="DamageOnTouch.cs" t="Include" />
-          <e p="MechArrow.cs" t="Include" />
-          <e p="MechArrowManager.cs" t="Include" />
-          <e p="MovingPlatform.cs" t="Include" />
-          <e p="Player" t="Include">
-            <e p="Player.cs" t="Include" />
-            <e p="PlayerHit.cs" t="Include" />
-            <e p="PlayerMove.cs" t="Include" />
-            <e p="ProjectileShooter.cs" t="Include" />
-          </e>
-          <e p="Portal.cs" t="Include" />
-          <e p="StageClearPortal.cs" t="Include" />
-          <e p="TakeOthers.cs" t="Include" />
-          <e p="UIManager.cs" t="Include" />
+          <e p="Dangerous.cs" t="Include" />
+          <e p="DashGem.cs" t="Include" />
+          <e p="Player.cs" t="Include" />
+          <e p="PlayerMovement.cs" t="Include" />
+          <e p="ProjectileController.cs" t="Include" />
         </e>
         <e p="SelfDestruction.cs" t="Include" />
       </e>
